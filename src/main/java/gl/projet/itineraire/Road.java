@@ -6,12 +6,14 @@ public class Road {
     Station secondStation;
 
     double distance;
+    boolean isAccident;
 
     // Constructor
     public Road(Station firstStation, Station secondStation) {
         this.firstStation = firstStation;
         this.secondStation = secondStation;
         distance = firstStation.getDistance(secondStation);
+        isAccident = false;
     }
 
     // #region Getters & Setters
