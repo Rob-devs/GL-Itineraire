@@ -13,7 +13,14 @@ public class Point {
 
     // TODO : implémenter la méthode
     public double getDistance(Point p) {
-        return 0;
+        //Point sur lequel on appel getDistance
+        int x1 = this.x;
+        int y1 = this.y;
+        //Point passé en param
+        int x2 = p.getX();
+        int y2 = p.getY();
+        //Calcul de la distance
+        return Math.sqrt(((x2 - x1)*2) + ((y2 - y1)*2));
     }
 
     // #region Getters & Setters
