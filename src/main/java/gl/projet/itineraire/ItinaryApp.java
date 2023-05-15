@@ -8,25 +8,71 @@ import java.util.Scanner;
 
 public class ItinaryApp {
 
-
+    private static List<Station> listStation; 
 
     public static void main(String[] args) {
         System.out.println("Hello World!");
+        Point palpha = new Point(1,1);
+        Point pbeta = new Point(3,8);
+        Point pcharlie = new Point(6,12);
+        Point pdelta = new Point(1,29);
+        Point pecho = new Point(12,5);
+        Point pfoxtrot = new Point(17,2);
+        Point pgolf = new Point(15,18);
+        Point photel = new Point(29,1);
+        Point pindia = new Point(23,25);
+        Point pjuliett = new Point(20,27);
+        Point pkilo = new Point(26,15);
+        Point plima = new Point(29,29);
+        
+        Station alpha = new Station("alpha", palpha);
+        Station bravo = new Station("beta", pbeta);
+        Station charlie = new Station("charlie", pcharlie);
+        Station delta = new Station("delta", pdelta);
+        Station echo = new Station("echo", pecho);
+        Station foxtrot = new Station("foxtrot", pfoxtrot);
+        Station golf = new Station("golf", pgolf);
+        Station hotel = new Station("hotel", photel);
+        Station india = new Station("india", pindia);
+        Station juliett = new Station("juliett", pjuliett);
+        Station kilo = new Station("kilo", pkilo);
+        Station lima = new Station("lima", plima);
 
-        // TODO : implémenter un jeu de données
+        listStation.add(alpha);
+        listStation.add(bravo);
+        listStation.add(charlie);
+        listStation.add(delta);
+        listStation.add(echo);
+        listStation.add(foxtrot);
+        listStation.add(golf);
+        listStation.add(hotel);
+        listStation.add(india);
+        listStation.add(juliett);
+        listStation.add(kilo);
+        listStation.add(lima);
     }
 
-    // TODO : implémenter la méthode
     // Choix d'une station de destination parmi toutes celles définies
-    // RODOLPHE
     public Station getDestination() {
-        return null;
+        System.out.println("Veuillez choisir la destination que vous voulez : ");
+        for(int i=0; i < listStation.size(); i++) {
+            System.out.println((i+1) +  " - " + listStation.get(i).getName());
+        }
+        Scanner sc = new Scanner(System.in);
+        try {
+            int choice = sc.nextInt();
+            if(choice <= listStation.size() && choice > 0) {
+                return listStation.get(choice);
+            }else {
+                return getDestination();
+            }
+        } catch(InputMismatchException e) {
+            return getDestination();
+        }
+
     }
 
-    // TODO : implémenter la méthode
     // Recherche d'itinéraire favorite entre le plus rapide et le moins de changement de ligne
-    // (regarder Constants.java)
-    // MANU
     public String getPreferredItinary() {
         System.out.println("Veuillez choisir quel type d'itinéraire vous préféré : ");
         System.out.println("1 - Le plus rapide");
