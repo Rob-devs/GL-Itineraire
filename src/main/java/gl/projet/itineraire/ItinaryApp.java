@@ -1,5 +1,7 @@
 package gl.projet.itineraire;
 
+import gl.projet.itineraire.Utils.Constants;
+
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -51,7 +53,6 @@ public class ItinaryApp {
     }
 
     // Choix d'une station de destination parmi toutes celles définies
-    // RODOLPHE
     public Station getDestination() {
         System.out.println("Veuillez choisir la destination que vous voulez : ");
         for(int i=0; i < listStation.size(); i++) {
@@ -71,12 +72,24 @@ public class ItinaryApp {
 
     }
 
-    // TODO : implémenter la méthode
-    // Recherche d'itinéraire favorite entre le plus rapide et le moins d'accident
-    // (regarder Constants.java)
-    // MANU
+    // Recherche d'itinéraire favorite entre le plus rapide et le moins de changement de ligne
     public String getPreferredItinary() {
-        return null;
+        System.out.println("Veuillez choisir quel type d'itinéraire vous préféré : ");
+        System.out.println("1 - Le plus rapide");
+        System.out.println("2 - Le moins de changement");
+
+        Scanner scan = new Scanner(System.in);
+        try {
+            int choice = scan.nextInt();
+
+            return switch (choice){
+                case 1 -> Constants.ITINARY_FASTEST;
+                case 2 -> Constants.ITINARY_NO_CHANGE;
+                default -> getPreferredItinary();
+            };
+        }catch (InputMismatchException e){
+            return getPreferredItinary();
+        }
     }
 
     // TODO : implémenter la méthode
