@@ -11,6 +11,7 @@ public class ItinaryApp {
 
     // TODO : implémenter la méthode
     // Choix d'une station de destination parmi toutes celles définies
+    // RODOLPHE
     public Station getDestination() {
         return null;
     }
@@ -18,6 +19,7 @@ public class ItinaryApp {
     // TODO : implémenter la méthode
     // Recherche d'itinéraire favorite entre le plus rapide et le moins d'accident
     // (regarder Constants.java)
+    // MANU
     public String getPreferredItinary() {
         return null;
     }
@@ -26,6 +28,7 @@ public class ItinaryApp {
     // Recherche de la liste des stations auxquelles s'arrêter (à part la
     // destination)
     // Mettre une limite (3 maximum) ?
+    // MANU
     public List<Station> getStationsToStop() {
         return null;
     }
@@ -33,6 +36,7 @@ public class ItinaryApp {
     // TODO : implémenter la méthode
     // Position de départ aléatoire entre les limites définies (regarder
     // Constants.java)
+    // RODOLPHE
     public Point getUserStartPosition() {
         return null;
     }
