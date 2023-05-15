@@ -1,2 +1,4 @@
 target/
 bindist/
+.idea/
+itineraire.iml
