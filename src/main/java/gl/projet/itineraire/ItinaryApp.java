@@ -1,19 +1,82 @@
 package gl.projet.itineraire;
 
+import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Scanner;
 
 public class ItinaryApp {
+
+    private static List<Station> listStation; 
+
     public static void main(String[] args) {
         System.out.println("Hello World!");
+        Point palpha = new Point(1,1);
+        Point pbeta = new Point(3,8);
+        Point pcharlie = new Point(6,12);
+        Point pdelta = new Point(1,29);
+        Point pecho = new Point(12,5);
+        Point pfoxtrot = new Point(17,2);
+        Point pgolf = new Point(15,18);
+        Point photel = new Point(29,1);
+        Point pindia = new Point(23,25);
+        Point pjuliett = new Point(20,27);
+        Point pkilo = new Point(26,15);
+        Point plima = new Point(29,29);
+        
+        Station alpha = new Station("alpha", palpha);
+        Station bravo = new Station("beta", pbeta);
+        Station charlie = new Station("charlie", pcharlie);
+        Station delta = new Station("delta", pdelta);
+        Station echo = new Station("echo", pecho);
+        Station foxtrot = new Station("foxtrot", pfoxtrot);
+        Station golf = new Station("golf", pgolf);
+        Station hotel = new Station("hotel", photel);
+        Station india = new Station("india", pindia);
+        Station juliett = new Station("juliett", pjuliett);
+        Station kilo = new Station("kilo", pkilo);
+        Station lima = new Station("lima", plima);
 
-        // TODO : implémenter un jeu de données
+        listStation.add(alpha);
+        listStation.add(bravo);
+        listStation.add(charlie);
+        listStation.add(delta);
+        listStation.add(echo);
+        listStation.add(foxtrot);
+        listStation.add(golf);
+        listStation.add(hotel);
+        listStation.add(india);
+        listStation.add(juliett);
+        listStation.add(kilo);
+        listStation.add(lima);
     }
 
-    // TODO : implémenter la méthode
     // Choix d'une station de destination parmi toutes celles définies
     // RODOLPHE
     public Station getDestination() {
-        return null;
+        System.out.println("Veuillez choisir la destination que vous voulez : ");
+        System.out.println("1 - Alpha");
+        System.out.println("2 - Beta");
+        System.out.println("3 - Charlie");
+        System.out.println("4 - Delta");
+        System.out.println("5 - Echo");
+        System.out.println("6 - Foxtrot");
+        System.out.println("7 - Golf");
+        System.out.println("8 - Hotel");
+        System.out.println("9 - India");
+        System.out.println("10 - Juliett");
+        System.out.println("11 - Kilo");
+        System.out.println("12 - Lima");
+
+        Scanner sc = new Scanner(System.in);
+
+        try {
+            int choice = sc.nextInt();
+            return listStation.get(choice);
+        } catch(InputMismatchException e) {
+            getDestination();
+            return null;
+        }
+
     }
 
     // TODO : implémenter la méthode
