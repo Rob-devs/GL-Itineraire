@@ -54,27 +54,19 @@ public class ItinaryApp {
     // RODOLPHE
     public Station getDestination() {
         System.out.println("Veuillez choisir la destination que vous voulez : ");
-        System.out.println("1 - Alpha");
-        System.out.println("2 - Beta");
-        System.out.println("3 - Charlie");
-        System.out.println("4 - Delta");
-        System.out.println("5 - Echo");
-        System.out.println("6 - Foxtrot");
-        System.out.println("7 - Golf");
-        System.out.println("8 - Hotel");
-        System.out.println("9 - India");
-        System.out.println("10 - Juliett");
-        System.out.println("11 - Kilo");
-        System.out.println("12 - Lima");
-
+        for(int i=0; i < listStation.size(); i++) {
+            System.out.println((i+1) +  " - " + listStation.get(i).getName());
+        }
         Scanner sc = new Scanner(System.in);
-
         try {
             int choice = sc.nextInt();
-            return listStation.get(choice);
+            if(choice <= listStation.size() && choice > 0) {
+                return listStation.get(choice);
+            }else {
+                return getDestination();
+            }
         } catch(InputMismatchException e) {
-            getDestination();
-            return null;
+            return getDestination();
         }
 
     }
