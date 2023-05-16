@@ -2,6 +2,7 @@ package gl.projet.itineraire;
 
 import java.util.List;
 
+// Ligne de métro regroupant la suite de routes
 public class Line {
 
     String id;

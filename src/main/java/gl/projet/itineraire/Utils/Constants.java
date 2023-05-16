@@ -1,5 +1,6 @@
 package gl.projet.itineraire.Utils;
 
+// Constantes utiles à l'application
 public class Constants {
 
     // User preferences

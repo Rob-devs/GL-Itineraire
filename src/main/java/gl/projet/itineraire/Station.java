@@ -1,5 +1,6 @@
 package gl.projet.itineraire;
 
+// Station de métro
 public class Station {
 
     String name;

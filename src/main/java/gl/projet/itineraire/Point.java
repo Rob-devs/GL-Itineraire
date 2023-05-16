@@ -1,5 +1,6 @@
 package gl.projet.itineraire;
 
+// Point de coordonnées
 public class Point {
 
     int x;
@@ -11,16 +12,19 @@ public class Point {
         this.y = y;
     }
 
-    // TODO : implémenter la méthode
+    // Retourne la distance euclidienne entre deux points
     public double getDistance(Point p) {
-        //Point sur lequel on appel getDistance
+
+        // Point sur lequel on appel getDistance
         int x1 = this.x;
         int y1 = this.y;
-        //Point passé en param
+
+        // Point passé en param
         int x2 = p.getX();
         int y2 = p.getY();
-        //Calcul de la distance
-        return Math.sqrt(((x2 - x1)*2) + ((y2 - y1)*2));
+
+        // Calcul de la distance
+        return Math.sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1)));
     }
 
     // #region Getters & Setters
