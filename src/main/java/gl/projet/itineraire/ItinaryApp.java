@@ -2,17 +2,20 @@ package gl.projet.itineraire;
 
 import gl.projet.itineraire.Utils.Constants;
 
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class ItinaryApp {
 
-    private static List<Station> listStation; 
+    private static List<Station> listStation;
+
+    private final Station destination;
 
     public static void main(String[] args) {
         System.out.println("Hello World!");
+    }
+
+    public ItinaryApp(){
+
         Point palpha = new Point(1,1);
         Point pbeta = new Point(3,8);
         Point pcharlie = new Point(6,12);
@@ -25,7 +28,7 @@ public class ItinaryApp {
         Point pjuliett = new Point(20,27);
         Point pkilo = new Point(26,15);
         Point plima = new Point(29,29);
-        
+
         Station alpha = new Station("alpha", palpha);
         Station bravo = new Station("beta", pbeta);
         Station charlie = new Station("charlie", pcharlie);
@@ -39,6 +42,8 @@ public class ItinaryApp {
         Station kilo = new Station("kilo", pkilo);
         Station lima = new Station("lima", plima);
 
+        listStation = new ArrayList<>();
+
         listStation.add(alpha);
         listStation.add(bravo);
         listStation.add(charlie);
@@ -51,6 +56,8 @@ public class ItinaryApp {
         listStation.add(juliett);
         listStation.add(kilo);
         listStation.add(lima);
+
+        this.destination = getDestination();
     }
 
     // Choix d'une station de destination parmi toutes celles définies
@@ -63,7 +70,7 @@ public class ItinaryApp {
         try {
             int choice = sc.nextInt();
             if(choice <= listStation.size() && choice > 0) {
-                return listStation.get(choice);
+                return listStation.get(choice-1);
             }else {
                 return getDestination();
             }
@@ -99,7 +106,42 @@ public class ItinaryApp {
     // Mettre une limite (3 maximum) ?
     // MANU
     public List<Station> getStationsToStop() {
-        return null;
+        List<Station> arret = new ArrayList<>();
+        for(int j = 0;j<3;j++) {
+            System.out.println("A quelle station souhaitez-vous vous arrêter :");
+            for (int i = 1; i <= listStation.size(); i++) {
+                if (!(arret.contains(listStation.get(i-1))) && !(Objects.equals(listStation.get(i - 1).getName(), this.destination.getName()))){
+                    System.out.println((i) + " - " + listStation.get(i-1).getName());
+                }
+            }
+
+            System.out.println((listStation.size()+1)+" - Stop");
+
+            Scanner scan = new Scanner(System.in);
+            try {
+                int choice = scan.nextInt();
+                if(listStation.size()+1 == choice){
+                    j = 4;
+                }else{
+                    if(0<choice && choice<listStation.size()) {
+                        if(!(arret.contains(listStation.get(choice-1))) && !(Objects.equals(listStation.get(choice - 1).getName(), destination.getName()))) {
+                            arret.add(listStation.get(choice - 1));
+                        }else{
+                            j--;
+                            System.out.println("Veuillez choisir une option valable");
+                        }
+                        System.out.println(arret.get(j).getName());
+                    }else{
+                        j--;
+                        System.out.println("Veuillez choisir une option valable");
+                    }
+                }
+            }catch (InputMismatchException e){
+                j--;
+                System.out.println("Veuillez choisir une option valable");
+            }
+        }
+        return arret;
     }
 
     // Position de départ aléatoire entre les limites définies (regarder
