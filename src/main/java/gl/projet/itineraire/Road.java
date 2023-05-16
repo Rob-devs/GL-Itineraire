@@ -1,5 +1,6 @@
 package gl.projet.itineraire;
 
+// Route allant d'une station à une autre station
 public class Road {
 
     Station firstStation;

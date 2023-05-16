@@ -3,6 +3,7 @@ package gl.projet.itineraire;
 import java.util.ArrayList;
 import java.util.List;
 
+// Un chemin trouvé par l'application
 public class Path {
 
     List<Road> roads;

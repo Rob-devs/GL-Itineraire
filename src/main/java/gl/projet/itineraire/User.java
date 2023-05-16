@@ -3,6 +3,7 @@ package gl.projet.itineraire;
 import java.util.ArrayList;
 import java.util.List;
 
+// Utilisateur de l'application
 public class User {
 
     Point startPosition;
