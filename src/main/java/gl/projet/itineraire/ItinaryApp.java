@@ -4,6 +4,7 @@ import gl.projet.itineraire.Utils.Constants;
 
 import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 public class ItinaryApp {
@@ -101,11 +102,14 @@ public class ItinaryApp {
         return null;
     }
 
-    // TODO : implémenter la méthode
     // Position de départ aléatoire entre les limites définies (regarder
     // Constants.java)
     // RODOLPHE
     public Point getUserStartPosition() {
-        return null;
+        int max = Constants.MAX_START_POSITION;
+        int min = Constants.MIN_START_POSITION;
+        Random random = new Random();
+        //random.nextInt(n) returns a random int between 0 and n-1
+        return new Point(random.nextInt((max - min) + 1) + min,random.nextInt((max - min) + 1) + min);
     }
 }
