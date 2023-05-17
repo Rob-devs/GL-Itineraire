@@ -11,4 +11,6 @@ public class Constants {
     public static final int MIN_START_POSITION = 0;
     public static final int MAX_START_POSITION = 30;
 
+    // Time
+    public static final int CONVERT_DIST_TO_SECONDS = 22;
 }

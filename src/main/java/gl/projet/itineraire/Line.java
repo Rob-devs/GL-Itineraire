@@ -5,22 +5,22 @@ import java.util.List;
 // Ligne de métro regroupant la suite de routes
 public class Line {
 
-    String id;
+    int id;
 
     List<Road> roads;
 
     // Constructor
-    public Line(String id, List<Road> roads) {
+    public Line(int id, List<Road> roads) {
         this.id = id;
         this.roads = roads;
     }
 
     // #region Getters and Setters
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
