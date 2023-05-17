@@ -106,10 +106,10 @@ public class ObjectsTest {
     @Test
     @DisplayName("Initialization of a new Line")
     public void initializeLine() {
-        Line l = new Line("1",
+        Line l = new Line(1,
                 Arrays.asList(new Road(new Station("s1", new Point(1, 1)), new Station("s2", new Point(1, 2))),
                         new Road(new Station("s3", new Point(2, 2)), new Station("s4", new Point(2, 1)))));
-        assert l.getId() == "1";
+        assert l.getId() == 1;
         assert l.getRoads().size() == 2;
         assert l.getRoads().get(0).getFirstStation().getPosition().getX() == 1;
         assert l.getRoads().get(0).getFirstStation().getPosition().getY() == 1;

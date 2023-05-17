@@ -4,24 +4,47 @@ import gl.projet.itineraire.Utils.Constants;
 
 import java.util.*;
 
-// Application de recherche d'itinéraire
+/**
+ * The ItinaryApp class contains methods for creating and manipulating data
+ * related to a transportation itinerary app.
+ */
 public class ItinaryApp {
 
-    private static List<Station> listStation;
+    private static User user;
 
+    private static List<Station> listStation;
+    private static List<Line> listLines;
     private static Station destination;
 
-    public static void main(String[] args) {
-        System.out.println("Hello World!");
-    }
-
+    // Constructor
     public ItinaryApp() {
 
         createAppData();
+        user = new User(getUserStartPosition());
+        destination = new Station("", new Point(0, 0));
+
     }
 
-    // #region Création des données de l'application
+    /******************************************************/
+    /* ----------------- MAIN FUNCTION ------------------ */
+    /******************************************************/
+    public static void main(String[] args) {
+
+        // TODO : Appeler les prompts pour récupérer les données de l'utilisateur
+
+        System.out.println("Hello World!");
+    }
+
+    /******************************************************/
+    /* -------------------- FEATURES -------------------- */
+    /******************************************************/
+
     private void createAppData() {
+
+        // TODO : Créer un jeu de données complet et réaliser, c'est à dire :
+        // - Créer 15 à 20 stations dans listStation
+        // - Créer les lignes et chemins correspondants dans listLines
+
         listStation = Arrays.asList(
                 new Station("alpha", new Point(1, 1)),
                 new Station("bravo", new Point(3, 8)),
@@ -36,9 +59,14 @@ public class ItinaryApp {
                 new Station("kilo", new Point(26, 15)),
                 new Station("lima", new Point(29, 29)));
     }
-    // #endregion
 
-    // #region Choix d'une station de destination parmi toutes celles définies
+    /**
+     * This Java function prompts the user to choose a destination from a list of
+     * stations and returns the selected station.
+     * 
+     * @return This method returns a Station object, which represents the
+     *         destination chosen by the user from a list of stations.
+     */
     public Station getDestination() {
         System.out.println("Veuillez choisir la destination que vous voulez : ");
         for (int i = 0; i < listStation.size(); i++) {
@@ -55,12 +83,17 @@ public class ItinaryApp {
         } catch (InputMismatchException e) {
             return getDestination();
         }
-
     }
-    // #endregion
 
-    // #region Recherche d'itinéraire favorite entre le plus rapide et le moins de
-    // changement de ligne
+    /**
+     * This Java function prompts the user to choose their preferred type of
+     * itinerary and returns a constant value based on their choice.
+     * 
+     * @return The method returns a String representing the user's preferred
+     *         itinerary type, either "fastest" or "no change". If the user enters
+     *         an invalid input, the method recursively calls itself until a valid
+     *         input is received.
+     */
     public String getPreferredItinary() {
         System.out.println("Veuillez choisir quel type d'itinéraire vous préféré : ");
         System.out.println("1 - Le plus rapide");
@@ -79,9 +112,13 @@ public class ItinaryApp {
             return getPreferredItinary();
         }
     }
-    // #endregion
 
-    // #region Recherche de la liste des stations auxquelles s'arrêter
+    /**
+     * This Java function allows a user to select multiple stations to stop at from
+     * a list of available stations.
+     * 
+     * @return A List of Station objects named "arret" is being returned.
+     */
     public List<Station> getStationsToStop() {
 
         List<Station> arret = new ArrayList<>();
@@ -89,7 +126,7 @@ public class ItinaryApp {
             System.out.println("A quelle station souhaitez-vous vous arrêter :");
             for (int i = 1; i <= listStation.size(); i++) {
                 if (!(arret.contains(listStation.get(i - 1)))
-                        && !(Objects.equals(listStation.get(i - 1).getName(), this.destination.getName()))) {
+                        && !(Objects.equals(listStation.get(i - 1).getName(), destination.getName()))) {
                     System.out.println((i) + " - " + listStation.get(i - 1).getName());
                 }
             }
@@ -123,9 +160,15 @@ public class ItinaryApp {
         }
         return arret;
     }
-    // #endregion
 
-    // #region Position de départ aléatoire entre les limites définies
+    /**
+     * The function returns a random Point object within a specified range for the
+     * user's starting position.
+     * 
+     * @return A randomly generated Point object with x and y coordinates within a
+     *         certain range defined by Constants.MAX_START_POSITION and
+     *         Constants.MIN_START_POSITION.
+     */
     public Point getUserStartPosition() {
 
         int max = Constants.MAX_START_POSITION;
@@ -135,5 +178,16 @@ public class ItinaryApp {
         // random.nextInt(n) returns a random int between 0 and n-1
         return new Point(random.nextInt((max - min) + 1) + min, random.nextInt((max - min) + 1) + min);
     }
-    // #endregion
+
+    // TODO : Obtenir un temps à partir d'une distance
+    // Retourner la distance multipliée par la constante CONVERT_DIST_TO_SECONDS
+    public int getSecondsFromDistance(double distance) {
+        return 0;
+    }
+
+    // TODO : Obtenir les cinq stations les plus proches de la position de
+    // l'utilisateur
+    public List<Station> getStationsNearUser() {
+        return null;
+    }
 }

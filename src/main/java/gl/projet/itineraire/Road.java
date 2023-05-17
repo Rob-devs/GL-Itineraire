@@ -33,5 +33,21 @@ public class Road {
     public void setSecondStation(Station secondStation) {
         this.secondStation = secondStation;
     }
+
+    public double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
+    }
+
+    public boolean isAccident() {
+        return isAccident;
+    }
+
+    public void setAccident(boolean accident) {
+        isAccident = accident;
+    }
     // #endregion
 }
