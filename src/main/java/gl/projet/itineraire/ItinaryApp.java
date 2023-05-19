@@ -202,10 +202,9 @@ public class ItinaryApp {
         return new Point(random.nextInt((max - min) + 1) + min, random.nextInt((max - min) + 1) + min);
     }
 
-    // TODO : Obtenir un temps à partir d'une distance
     // Retourner la distance multipliée par la constante CONVERT_DIST_TO_SECONDS
     public int getSecondsFromDistance(double distance) {
-        return 0;
+        return (int)(distance * Constants.CONVERT_DIST_TO_SECONDS);
     }
 
     // TODO : Obtenir les cinq stations les plus proches de la position de
