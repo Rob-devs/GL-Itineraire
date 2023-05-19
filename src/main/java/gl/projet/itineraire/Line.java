@@ -6,13 +6,15 @@ import java.util.List;
 public class Line {
 
     int id;
+    int intervalle;
 
     List<Road> roads;
 
     // Constructor
-    public Line(int id, List<Road> roads) {
+    public Line(int id, List<Road> roads, int intervalle) {
         this.id = id;
         this.roads = roads;
+        this.intervalle = intervalle;
     }
 
     // #region Getters and Setters

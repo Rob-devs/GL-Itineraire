@@ -42,7 +42,6 @@ public class ItinaryApp {
     private void createAppData() {
 
         // TODO : Créer un jeu de données complet et réaliser, c'est à dire :
-        // - Créer 15 à 20 stations dans listStation
         // - Créer les lignes et chemins correspondants dans listLines
 
         listStation = Arrays.asList(
@@ -57,7 +56,31 @@ public class ItinaryApp {
                 new Station("india", new Point(23, 25)),
                 new Station("juliett", new Point(20, 27)),
                 new Station("kilo", new Point(26, 15)),
-                new Station("lima", new Point(29, 29)));
+                new Station("lima", new Point(27, 7)),
+                new Station("mike", new Point(8, 27)),
+                new Station("november", new Point(4, 20)),
+                new Station("oscar", new Point(29, 29)));
+        listLines = Arrays.asList(
+            new Line(1, Arrays.asList(new Road(listStation.get(0), listStation.get(4)),
+            new Road(listStation.get(4), listStation.get(10)),
+            new Road(listStation.get(10), listStation.get(8))), 600),
+            new Line(2, Arrays.asList(new Road(listStation.get(1), listStation.get(2)),
+            new Road(listStation.get(2), listStation.get(6)),
+            new Road(listStation.get(6), listStation.get(9))
+            ), 600),
+            new Line(3, Arrays.asList(new Road(listStation.get(13), listStation.get(1)),
+            new Road(listStation.get(1), listStation.get(5)),
+            new Road(listStation.get(5), listStation.get(10)),
+            new Road(listStation.get(10), listStation.get(8))
+            ), 600),
+            new Line(4, Arrays.asList(new Road(listStation.get(3), listStation.get(12)),
+            new Road(listStation.get(12), listStation.get(6)),
+            new Road(listStation.get(6), listStation.get(10)),
+            new Road(listStation.get(10), listStation.get(11)),
+            new Road(listStation.get(11), listStation.get(7))
+            ), 300)
+        );
+
     }
 
     /**
