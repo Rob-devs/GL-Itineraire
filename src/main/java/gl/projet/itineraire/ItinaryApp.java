@@ -30,9 +30,26 @@ public class ItinaryApp {
     /******************************************************/
     public static void main(String[] args) {
 
-        // TODO : Appeler les prompts pour récupérer les données de l'utilisateur
-
-        System.out.println("Hello World!");
+        ItinaryApp app = new ItinaryApp();
+        Point startPosition = user.getStartPosition();
+        System.out.println("Calcule itineraire");
+        System.out.println("Votre position de départ : )");
+        System.out.println("x:"+ startPosition.x);
+        System.out.println("y:"+ startPosition.y);
+        app.getDestination();
+        Scanner scan = new Scanner(System.in);
+        String choix = "";
+        while (!choix.equals("N") && !choix.equals("n") && !choix.equals("Y") && !choix.equals("y")) {
+            System.out.println("Voulez-vous ajouter des stations par lequelles l'itinéraire devra passer ? [Y/N]");
+            choix = scan.nextLine();
+            if (!choix.equals("N") && !choix.equals("n") && !choix.equals("Y") && !choix.equals("y")) {
+                System.out.println("Erreur : choix invalide !" + '('+choix+')');
+            }
+        }
+        if (choix.equals("Y") || choix.equals("y")) {
+            app.getStationsToStop();
+        }
+        String itinerary = app.getPreferredItinary();
     }
 
     /******************************************************/
