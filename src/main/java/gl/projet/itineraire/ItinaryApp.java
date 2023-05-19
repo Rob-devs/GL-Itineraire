@@ -3,6 +3,7 @@ package gl.projet.itineraire;
 import gl.projet.itineraire.Utils.Constants;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * The ItinaryApp class contains methods for creating and manipulating data
@@ -80,7 +81,6 @@ public class ItinaryApp {
             new Road(listStation.get(11), listStation.get(7))
             ), 300)
         );
-
     }
 
     /**
@@ -211,6 +211,17 @@ public class ItinaryApp {
     // TODO : Obtenir les cinq stations les plus proches de la position de
     // l'utilisateur
     public List<Station> getStationsNearUser() {
-        return null;
+        HashMap<Double,Station> distance = new HashMap<>();
+        List<Station> res = new ArrayList<>();
+        for (Station s: listStation) {
+            distance.put(s.getPosition().getDistance(user.startPosition),s);
+        }
+
+        List<Double> sort = distance.keySet().stream().sorted().toList();
+        for (int i = 0; i < 5; i++) {
+            res.add(distance.get(sort.get(i)));
+        }
+
+        return res;
     }
 }
