@@ -3,6 +3,7 @@ package gl.projet.itineraire;
 import gl.projet.itineraire.Utils.Constants;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * The ItinaryApp class contains methods for creating and manipulating data
@@ -80,13 +81,12 @@ public class ItinaryApp {
             new Road(listStation.get(11), listStation.get(7))
             ), 300)
         );
-
     }
 
     /**
      * This Java function prompts the user to choose a destination from a list of
      * stations and returns the selected station.
-     * 
+     *
      * @return This method returns a Station object, which represents the
      *         destination chosen by the user from a list of stations.
      */
@@ -111,7 +111,7 @@ public class ItinaryApp {
     /**
      * This Java function prompts the user to choose their preferred type of
      * itinerary and returns a constant value based on their choice.
-     * 
+     *
      * @return The method returns a String representing the user's preferred
      *         itinerary type, either "fastest" or "no change". If the user enters
      *         an invalid input, the method recursively calls itself until a valid
@@ -139,7 +139,7 @@ public class ItinaryApp {
     /**
      * This Java function allows a user to select multiple stations to stop at from
      * a list of available stations.
-     * 
+     *
      * @return A List of Station objects named "arret" is being returned.
      */
     public List<Station> getStationsToStop() {
@@ -187,7 +187,7 @@ public class ItinaryApp {
     /**
      * The function returns a random Point object within a specified range for the
      * user's starting position.
-     * 
+     *
      * @return A randomly generated Point object with x and y coordinates within a
      *         certain range defined by Constants.MAX_START_POSITION and
      *         Constants.MIN_START_POSITION.
@@ -211,6 +211,17 @@ public class ItinaryApp {
     // TODO : Obtenir les cinq stations les plus proches de la position de
     // l'utilisateur
     public List<Station> getStationsNearUser() {
-        return null;
+        HashMap<Double,Station> distance = new HashMap<>();
+        List<Station> res = new ArrayList<>();
+        for (Station s: listStation) {
+            distance.put(s.getPosition().getDistance(user.startPosition),s);
+        }
+
+        List<Double> sort = distance.keySet().stream().sorted().toList();
+        for (int i = 0; i < 5; i++) {
+            res.add(distance.get(sort.get(i)));
+        }
+
+        return res;
     }
 }
