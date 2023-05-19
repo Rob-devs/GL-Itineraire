@@ -115,6 +115,7 @@ public class ObjectsTest {
         assert l.getRoads().get(0).getFirstStation().getPosition().getY() == 1;
         assert l.getRoads().get(1).getFirstStation().getPosition().getX() == 2;
         assert l.getRoads().get(1).getSecondStation().getPosition().getY() == 1;
+        assert l.getIntervalle() == 300;
     }
     // #endregion
 
