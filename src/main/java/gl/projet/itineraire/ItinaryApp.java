@@ -239,6 +239,7 @@ public class ItinaryApp {
      * 
      * @return A list of the 5 nearest stations to the user's starting position.
      */
+    // TODO : Ignorer les stations accidentées
     public List<Station> getStationsNearUser() {
         HashMap<Double, Station> distance = new HashMap<>();
         List<Station> res = new ArrayList<>();
@@ -252,5 +253,39 @@ public class ItinaryApp {
         }
 
         return res;
+    }
+
+    // TODO : Obtenir tous les chemins (Road) qui sont accessibles à partir d'une
+    // station.
+    // Il faut pour ça regarder dans l'objet listLines qui décrit tous les chemins
+    // possibles, et remonter tous les chemins qui contiennent la station.
+    // Remonter tous les objets Road avec :
+    // - Road.firstStation = la station d'origine,
+    // - Road.secondStation = la station de destination.
+    // Ne pas remonter les objets Road qui ont un accident ou dont une des stations
+    // est accidentée.
+    public List<Road> getRoadsNearStation(Station s) {
+        return null;
+    }
+
+    // TODO : Trouver tous les trajets possibles à partir d'une station.
+    public List<Path> getAllPathsFromStation(Station s) {
+        return null;
+    }
+
+    // TODO : Remonter tous les trajets possibles de toutes les stations de départ
+    // possibles de l'utilisateur.
+    // Appeler pour chaque station getAllPathsFromStation et remonter toutes les
+    // listes en une seule.
+    public List<Path> getAllPathsFromStations(List<Station> stations) {
+        return null;
+    }
+
+    // TODO : Créer aléatoirement des accidents, qui peuvent survenir dans les
+    // objets Station et Road.
+    // Il faut trouver une façon de faire qui génère un nombre d'accidents assez
+    // stable (entre 0 et 3 ou 4)
+    public void generateAccidents() {
+
     }
 }

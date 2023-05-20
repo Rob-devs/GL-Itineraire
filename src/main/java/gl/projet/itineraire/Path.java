@@ -23,6 +23,23 @@ public class Path {
         this.travelTime += travelTime;
     }
 
+    // TODO : Renvoie true si un des chemins dans le trajet contient la station
+    public boolean pathContainsStation(Station s) {
+        return true;
+    }
+
+    // TODO : Renvoie true si dans la liste des chemins roads, deux chemins
+    // contiennent les mêmes stations (peu importe l'ordre)
+    public boolean pathHasDuplicateRoad() {
+        return true;
+    }
+
+    // TODO : Renvoie la seconde station du dernier chemin de roads
+    // Si roads est null, renvoyer null
+    public Station getLastStation() {
+        return null;
+    }
+
     // #region Getters & Setters
     public List<Road> getRoads() {
         return roads;
