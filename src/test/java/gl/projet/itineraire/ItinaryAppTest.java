@@ -63,7 +63,7 @@ public class ItinaryAppTest {
     public void getUserStationsToStop() {
 
         // MOCK System.in
-        String data = "13";
+        String data = "16";
         InputStream stdin = System.in;
         System.setIn(new ByteArrayInputStream(data.getBytes()));
 
@@ -80,7 +80,7 @@ public class ItinaryAppTest {
     @ValueSource(doubles = { 0.5, 2, 6, 19, 1.1, 50, 1000 })
     public void getConvertionDistToTime(double distance) {
         ItinaryApp app = new ItinaryApp();
-        assert (app.getSecondsFromDistance(distance) == distance * Constants.CONVERT_DIST_TO_SECONDS);
+        assert (app.getSecondsFromDistance(distance) == (int) (distance * Constants.CONVERT_DIST_TO_SECONDS));
     }
 
     @Test
