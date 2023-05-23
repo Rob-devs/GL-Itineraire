@@ -38,10 +38,13 @@ public class Path {
         return true;
     }
 
-    // TODO : Renvoie la seconde station du dernier chemin de roads
     // Si roads est null, renvoyer null
     public Station getLastStation() {
-        return null;
+        try {
+            return roads.get(roads.size() - 1).secondStation;
+        }catch(NullPointerException e){
+            return null;
+        }
     }
 
     // #region Getters & Setters
