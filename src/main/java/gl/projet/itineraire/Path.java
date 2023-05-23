@@ -28,10 +28,20 @@ public class Path {
         return true;
     }
 
-    // TODO : Renvoie true si dans la liste des chemins roads, deux chemins
     // contiennent les mêmes stations (peu importe l'ordre)
     public boolean pathHasDuplicateRoad() {
-        return true;
+        //parcours de la liste des chemins roads
+        for (Road rRef : this.roads) {
+            //Pour chaque Road de roads on va parcourir la liste pour voir s'il y a les mêmes Stations
+            for (Road r : this.roads) {
+                if(rRef!=r){
+                    if(rRef.getFirstStation()==r.getFirstStation()&&rRef.getSecondStation()==r.getSecondStation()){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     // TODO : Renvoie la seconde station du dernier chemin de roads
