@@ -34,10 +34,14 @@ public class Path {
         for (Road rRef : this.roads) {
             //Pour chaque Road de roads on va parcourir la liste pour voir s'il y a les mêmes Stations
             for (Road r : this.roads) {
-                if(rRef!=r){
-                    if(rRef.getFirstStation()==r.getFirstStation()&&rRef.getSecondStation()==r.getSecondStation()){
-                        return true;
-                    }
+                //Evalutation des stations
+                boolean isSameStations = (rRef.getFirstStation() == r.getFirstStation() && rRef.getSecondStation() == r.getSecondStation())
+                        || (rRef.getFirstStation() == r.getSecondStation() && rRef.getSecondStation() == r.getFirstStation());
+                //Evaluation qui vérifie qu'on ne compare la rRef avec elle même.
+                boolean isDifferentReference = rRef != r;
+
+                if (isDifferentReference && isSameStations) {
+                    return true;
                 }
             }
         }
