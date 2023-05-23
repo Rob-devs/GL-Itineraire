@@ -269,11 +269,11 @@ public class ItinaryApp {
         for (Line l : listLines) {
             for(Road r : l.getRoads()) {
                 // Vérifier si la route n'a pas d'accident
-                if (!r.isAccident()) {
+                if (!r.isAccident() && !r.getFirstStation().isAccident() && !r.getSecondStation().isAccident()) {
                     // Vérifier si la station donnée est l'une des extrémités de la route
-                    if (r.getFirstStation().equals(s) || r.getSecondStation().equals(s)) {
-                        roadsNearStation.add(r);
-                    }
+                    if(s.equals(r.getFirstStation())) {
+                        roadsNearStation.add(new Road(s, r.getSecondStation()));
+                    }else if(s.equals(r.getSecondStation())) roadsNearStation.add(new Road(s, r.getFirstStation()));  
                 }
             }
         }
