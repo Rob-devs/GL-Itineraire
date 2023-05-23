@@ -37,7 +37,7 @@ public class Path {
     // Si roads est null, renvoyer null
     public Station getLastStation() {
         try {
-            return roads.get(roads.size() - 1).secondStation;
+            return roads.get(roads.size() - 1).getSecondStation();
         }catch(NullPointerException e){
             return null;
         }
