@@ -280,17 +280,50 @@ public class ItinaryApp {
         return roadsNearStation;
     }
 
-    // TODO : Trouver tous les trajets possibles à partir d'une station.
+    // Trouver tous les trajets possibles à partir d'une station.
     public List<Path> getAllPathsFromStation(Station s) {
-        return null;
+        List<Path> listPath = new ArrayList<>();
+        for(Road r : getRoadsNearStation(s)){
+            Path p = new Path();
+            p.addRoad(r);
+            listPath.add(p);
+        }
+
+        boolean terminer = false;
+
+        while(!terminer){
+            List<Path> newListPath = new ArrayList<>();
+            terminer = true;
+            for(Path p: listPath) {
+                if (p.pathContainsStation(user.getDestination())) {
+                    newListPath.add(p);
+                }else{
+                    if(!p.pathHasDuplicateRoad()){
+                        terminer = false;
+                        for(Road r : getRoadsNearStation(p.getLastStation())){
+                            Path path = p;
+                            path.addRoad(r);
+                            newListPath.add(path);
+                        }
+                    }
+                }
+            }
+            listPath = newListPath;
+        }
+
+        return listPath;
     }
 
-    // TODO : Remonter tous les trajets possibles de toutes les stations de départ
+    // Remonter tous les trajets possibles de toutes les stations de départ
     // possibles de l'utilisateur.
     // Appeler pour chaque station getAllPathsFromStation et remonter toutes les
     // listes en une seule.
     public List<Path> getAllPathsFromStations(List<Station> stations) {
-        return null;
+        List<Path> result = new ArrayList<>();
+        for (Station s: stations) {
+            result.addAll(getAllPathsFromStation(s));
+        }
+        return result;
     }
 
     /**
