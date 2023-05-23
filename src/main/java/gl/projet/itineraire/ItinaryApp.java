@@ -239,14 +239,14 @@ public class ItinaryApp {
      * 
      * @return A list of the 5 nearest stations to the user's starting position.
      */
-    // TODO : Ignorer les stations accidentées
     public List<Station> getStationsNearUser() {
         HashMap<Double, Station> distance = new HashMap<>();
         List<Station> res = new ArrayList<>();
         for (Station s : listStation) {
-            distance.put(s.getPosition().getDistance(user.startPosition), s);
+            if(!s.isAccident()) {
+                distance.put(s.getPosition().getDistance(user.startPosition), s);
+            }
         }
-
         List<Double> sort = distance.keySet().stream().sorted().toList();
         for (int i = 0; i < 5; i++) {
             res.add(distance.get(sort.get(i)));
@@ -255,17 +255,29 @@ public class ItinaryApp {
         return res;
     }
 
-    // TODO : Obtenir tous les chemins (Road) qui sont accessibles à partir d'une
-    // station.
-    // Il faut pour ça regarder dans l'objet listLines qui décrit tous les chemins
-    // possibles, et remonter tous les chemins qui contiennent la station.
-    // Remonter tous les objets Road avec :
-    // - Road.firstStation = la station d'origine,
-    // - Road.secondStation = la station de destination.
-    // Ne pas remonter les objets Road qui ont un accident ou dont une des stations
-    // est accidentée.
+    /**
+     * This function returns a list of roads that are near a given station and do not have any
+     * accidents.
+     * 
+     * @param s The parameter "s" is an object of the class Station, which represents a station on a
+     * transportation network. It is used as a reference point to find the roads that are near it.
+     * @return The method is returning a list of roads that are near the given station and do not have
+     * any accidents.
+     */
     public List<Road> getRoadsNearStation(Station s) {
-        return null;
+        List<Road> roadsNearStation = new ArrayList<>();
+        for (Line l : listLines) {
+            for(Road r : l.getRoads()) {
+                // Vérifier si la route n'a pas d'accident
+                if (!r.isAccident() && !r.getFirstStation().isAccident() && !r.getSecondStation().isAccident()) {
+                    // Vérifier si la station donnée est l'une des extrémités de la route
+                    if(s.equals(r.getFirstStation())) {
+                        roadsNearStation.add(new Road(s, r.getSecondStation()));
+                    }else if(s.equals(r.getSecondStation())) roadsNearStation.add(new Road(s, r.getFirstStation()));  
+                }
+            }
+        }
+        return roadsNearStation;
     }
 
     // TODO : Trouver tous les trajets possibles à partir d'une station.
@@ -281,11 +293,33 @@ public class ItinaryApp {
         return null;
     }
 
-    // TODO : Créer aléatoirement des accidents, qui peuvent survenir dans les
-    // objets Station et Road.
-    // Il faut trouver une façon de faire qui génère un nombre d'accidents assez
-    // stable (entre 0 et 3 ou 4)
+    /**
+     * This function generates random accidents in stations and on roads.
+     */
     public void generateAccidents() {
-
+        Random randStation = new Random();
+        System.out.println("Accidents dans les stations :");
+        for(Station s : this.listStation) {
+            int numAccidents = randStation.nextInt(15);
+            if(numAccidents <= 2 && numAccidents >= 0) {
+                s.setAccident(true);
+            }else {
+                s.setAccident(false);
+            }
+            System.out.println("Station " + s.getName() + ":" + s.isAccident());
+        }
+        System.out.println("Accidents sur les routes :");
+        Random randRoad = new Random();
+        for (Line l : this.listLines) {
+            for(Road r : l.getRoads()) {
+                int numAccidents = randRoad.nextInt(5);
+                if(numAccidents == 1) {
+                    r.setAccident(true);
+                }else {
+                    r.setAccident(false);
+                }
+                System.out.println("Route entre " + r.getFirstStation() + " et " + r.getSecondStation() + " : " + r.isAccident());
+            }
+        }
     }
 }
