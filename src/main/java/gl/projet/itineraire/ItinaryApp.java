@@ -3,7 +3,6 @@ package gl.projet.itineraire;
 import gl.projet.itineraire.Utils.Constants;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * The ItinaryApp class contains methods for creating and manipulating data
@@ -31,19 +30,38 @@ public class ItinaryApp {
     /******************************************************/
     public static void main(String[] args) {
 
-        // TODO : Appeler les prompts pour récupérer les données de l'utilisateur
-
-        System.out.println("Hello World!");
+        ItinaryApp app = new ItinaryApp();
+        Point startPosition = user.getStartPosition();
+        System.out.println("Calcule itineraire");
+        System.out.println("Votre position de départ : )");
+        System.out.println("x:" + startPosition.x);
+        System.out.println("y:" + startPosition.y);
+        app.getDestination();
+        Scanner scan = new Scanner(System.in);
+        String choix = "";
+        while (!choix.equals("N") && !choix.equals("n") && !choix.equals("Y") && !choix.equals("y")) {
+            System.out.println("Voulez-vous ajouter des stations par lequelles l'itinéraire devra passer ? [Y/N]");
+            choix = scan.nextLine();
+            if (!choix.equals("N") && !choix.equals("n") && !choix.equals("Y") && !choix.equals("y")) {
+                System.out.println("Erreur : choix invalide !" + '(' + choix + ')');
+            }
+        }
+        if (choix.equals("Y") || choix.equals("y")) {
+            app.getStationsToStop();
+        }
+        String itinerary = app.getPreferredItinary();
     }
 
     /******************************************************/
     /* -------------------- FEATURES -------------------- */
     /******************************************************/
 
+    /**
+     * The function creates a list of stations and a list of lines with their
+     * respective roads and
+     * travel times.
+     */
     private void createAppData() {
-
-        // TODO : Créer un jeu de données complet et réaliser, c'est à dire :
-        // - Créer les lignes et chemins correspondants dans listLines
 
         listStation = Arrays.asList(
                 new Station("alpha", new Point(1, 1)),
@@ -62,31 +80,27 @@ public class ItinaryApp {
                 new Station("november", new Point(4, 20)),
                 new Station("oscar", new Point(29, 29)));
         listLines = Arrays.asList(
-            new Line(1, Arrays.asList(new Road(listStation.get(0), listStation.get(4)),
-            new Road(listStation.get(4), listStation.get(10)),
-            new Road(listStation.get(10), listStation.get(8))), 600),
-            new Line(2, Arrays.asList(new Road(listStation.get(1), listStation.get(2)),
-            new Road(listStation.get(2), listStation.get(6)),
-            new Road(listStation.get(6), listStation.get(9))
-            ), 600),
-            new Line(3, Arrays.asList(new Road(listStation.get(13), listStation.get(1)),
-            new Road(listStation.get(1), listStation.get(5)),
-            new Road(listStation.get(5), listStation.get(10)),
-            new Road(listStation.get(10), listStation.get(8))
-            ), 600),
-            new Line(4, Arrays.asList(new Road(listStation.get(3), listStation.get(12)),
-            new Road(listStation.get(12), listStation.get(6)),
-            new Road(listStation.get(6), listStation.get(10)),
-            new Road(listStation.get(10), listStation.get(11)),
-            new Road(listStation.get(11), listStation.get(7))
-            ), 300)
-        );
+                new Line(1, Arrays.asList(new Road(listStation.get(0), listStation.get(4)),
+                        new Road(listStation.get(4), listStation.get(10)),
+                        new Road(listStation.get(10), listStation.get(8))), 600),
+                new Line(2, Arrays.asList(new Road(listStation.get(1), listStation.get(2)),
+                        new Road(listStation.get(2), listStation.get(6)),
+                        new Road(listStation.get(6), listStation.get(9))), 600),
+                new Line(3, Arrays.asList(new Road(listStation.get(13), listStation.get(1)),
+                        new Road(listStation.get(1), listStation.get(5)),
+                        new Road(listStation.get(5), listStation.get(10)),
+                        new Road(listStation.get(10), listStation.get(8))), 600),
+                new Line(4, Arrays.asList(new Road(listStation.get(3), listStation.get(12)),
+                        new Road(listStation.get(12), listStation.get(6)),
+                        new Road(listStation.get(6), listStation.get(10)),
+                        new Road(listStation.get(10), listStation.get(11)),
+                        new Road(listStation.get(11), listStation.get(7))), 300));
     }
 
     /**
      * This Java function prompts the user to choose a destination from a list of
      * stations and returns the selected station.
-     * 
+     *
      * @return This method returns a Station object, which represents the
      *         destination chosen by the user from a list of stations.
      */
@@ -111,7 +125,7 @@ public class ItinaryApp {
     /**
      * This Java function prompts the user to choose their preferred type of
      * itinerary and returns a constant value based on their choice.
-     * 
+     *
      * @return The method returns a String representing the user's preferred
      *         itinerary type, either "fastest" or "no change". If the user enters
      *         an invalid input, the method recursively calls itself until a valid
@@ -139,7 +153,7 @@ public class ItinaryApp {
     /**
      * This Java function allows a user to select multiple stations to stop at from
      * a list of available stations.
-     * 
+     *
      * @return A List of Station objects named "arret" is being returned.
      */
     public List<Station> getStationsToStop() {
@@ -187,7 +201,7 @@ public class ItinaryApp {
     /**
      * The function returns a random Point object within a specified range for the
      * user's starting position.
-     * 
+     *
      * @return A randomly generated Point object with x and y coordinates within a
      *         certain range defined by Constants.MAX_START_POSITION and
      *         Constants.MIN_START_POSITION.
@@ -202,26 +216,110 @@ public class ItinaryApp {
         return new Point(random.nextInt((max - min) + 1) + min, random.nextInt((max - min) + 1) + min);
     }
 
-    // TODO : Obtenir un temps à partir d'une distance
-    // Retourner la distance multipliée par la constante CONVERT_DIST_TO_SECONDS
+    /**
+     * This function calculates the time in seconds it takes to travel a certain
+     * distance based on a
+     * constant conversion factor.
+     * 
+     * @param distance The distance parameter is a double value representing a
+     *                 distance measurement.
+     * @return The method is returning an integer value which represents the number
+     *         of seconds it would
+     *         take to travel the given distance. The calculation is done by
+     *         multiplying the distance by a
+     *         constant value that converts distance to seconds.
+     */
     public int getSecondsFromDistance(double distance) {
-        return 0;
+        return (int) (distance * Constants.CONVERT_DIST_TO_SECONDS);
     }
 
-    // TODO : Obtenir les cinq stations les plus proches de la position de
-    // l'utilisateur
+    /**
+     * This Java function returns a list of the 5 nearest stations to a user's
+     * starting position.
+     * 
+     * @return A list of the 5 nearest stations to the user's starting position.
+     */
     public List<Station> getStationsNearUser() {
-        HashMap<Double,Station> distance = new HashMap<>();
+        HashMap<Double, Station> distance = new HashMap<>();
         List<Station> res = new ArrayList<>();
-        for (Station s: listStation) {
-            distance.put(s.getPosition().getDistance(user.startPosition),s);
+        for (Station s : listStation) {
+            if(!s.isAccident()) {
+                distance.put(s.getPosition().getDistance(user.startPosition), s);
+            }
         }
-
         List<Double> sort = distance.keySet().stream().sorted().toList();
         for (int i = 0; i < 5; i++) {
             res.add(distance.get(sort.get(i)));
         }
 
         return res;
+    }
+
+    /**
+     * This function returns a list of roads that are near a given station and do not have any
+     * accidents.
+     * 
+     * @param s The parameter "s" is an object of the class Station, which represents a station on a
+     * transportation network. It is used as a reference point to find the roads that are near it.
+     * @return The method is returning a list of roads that are near the given station and do not have
+     * any accidents.
+     */
+    public List<Road> getRoadsNearStation(Station s) {
+        List<Road> roadsNearStation = new ArrayList<>();
+        for (Line l : listLines) {
+            for(Road r : l.getRoads()) {
+                // Vérifier si la route n'a pas d'accident
+                if (!r.isAccident() && !r.getFirstStation().isAccident() && !r.getSecondStation().isAccident()) {
+                    // Vérifier si la station donnée est l'une des extrémités de la route
+                    if(s.equals(r.getFirstStation())) {
+                        roadsNearStation.add(new Road(s, r.getSecondStation()));
+                    }else if(s.equals(r.getSecondStation())) roadsNearStation.add(new Road(s, r.getFirstStation()));  
+                }
+            }
+        }
+        return roadsNearStation;
+    }
+
+    // TODO : Trouver tous les trajets possibles à partir d'une station.
+    public List<Path> getAllPathsFromStation(Station s) {
+        return null;
+    }
+
+    // TODO : Remonter tous les trajets possibles de toutes les stations de départ
+    // possibles de l'utilisateur.
+    // Appeler pour chaque station getAllPathsFromStation et remonter toutes les
+    // listes en une seule.
+    public List<Path> getAllPathsFromStations(List<Station> stations) {
+        return null;
+    }
+
+    /**
+     * This function generates random accidents in stations and on roads.
+     */
+    public void generateAccidents() {
+        Random randStation = new Random();
+        System.out.println("Accidents dans les stations :");
+        for(Station s : this.listStation) {
+            int numAccidents = randStation.nextInt(15);
+            if(numAccidents <= 2 && numAccidents >= 0) {
+                s.setAccident(true);
+            }else {
+                s.setAccident(false);
+            }
+            System.out.println("Station " + s.getName() + ":" + s.isAccident());
+        }
+        System.out.println("Accidents sur les routes :");
+        Random randRoad = new Random();
+        for (Line l : this.listLines) {
+            for(Road r : l.getRoads()) {
+                int numAccidents = randRoad.nextInt(5);
+                if(numAccidents == 1) {
+                    r.setAccident(true);
+                }else {
+                    r.setAccident(false);
+                }
+                System.out.println("Route entre " + r.getFirstStation() + " et " + r.getSecondStation() + " : " + r.isAccident());
+            }
+        }
     }
 }

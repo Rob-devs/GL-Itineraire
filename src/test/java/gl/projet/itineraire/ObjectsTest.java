@@ -108,17 +108,19 @@ public class ObjectsTest {
     public void initializeLine() {
         Line l = new Line(1,
                 Arrays.asList(new Road(new Station("s1", new Point(1, 1)), new Station("s2", new Point(1, 2))),
-                        new Road(new Station("s3", new Point(2, 2)), new Station("s4", new Point(2, 1)))), 300);
+                        new Road(new Station("s3", new Point(2, 2)), new Station("s4", new Point(2, 1)))),
+                300);
         assert l.getId() == 1;
         assert l.getRoads().size() == 2;
         assert l.getRoads().get(0).getFirstStation().getPosition().getX() == 1;
         assert l.getRoads().get(0).getFirstStation().getPosition().getY() == 1;
         assert l.getRoads().get(1).getFirstStation().getPosition().getX() == 2;
         assert l.getRoads().get(1).getSecondStation().getPosition().getY() == 1;
+        assert l.getIntervalle() == 300;
     }
     // #endregion
 
-    // #region Line
+    // #region Path
     @Test
     @DisplayName("Initialization of a new Path")
     public void initializePath() {
@@ -131,6 +133,72 @@ public class ObjectsTest {
 
         p.addRoad(new Road(new Station("s1", new Point(1, 1)), new Station("s2", new Point(1, 2))));
         assert p.getRoads().size() == 1;
+    }
+
+    @Test
+    @DisplayName("Checking if a path contains a station")
+    public void pathContainsStationTest() {
+        Path p = new Path();
+
+        Station s1Station = new Station("s1", new Point(1, 1));
+        Station s2Station = new Station("s2", new Point(1, 2));
+        Station s3Station = new Station("s3", new Point(2, 2));
+
+        p.addRoad(new Road(s1Station, s2Station));
+
+        assert p.pathContainsStation(s1Station) == true;
+        assert p.pathContainsStation(s3Station) == false;
+        assert p.pathContainsStation(s2Station) == true;
+    }
+
+    @Test
+    @DisplayName("Checking if a path contains a duplicate road")
+    public void pathHasDuplicateRoadTest() {
+        Path p = new Path();
+
+        Station s1Station = new Station("s1", new Point(1, 1));
+        Station s2Station = new Station("s2", new Point(1, 2));
+        Station s3Station = new Station("s3", new Point(2, 2));
+
+        Road r1 = new Road(s1Station, s2Station);
+        Road r2 = new Road(s3Station, s2Station);
+        Road r3 = new Road(s1Station, s3Station);
+        Road r4 = new Road(s2Station, s3Station);
+
+        p.addRoad(r1);
+        p.addRoad(r2);
+
+        assert p.pathHasDuplicateRoad() == false;
+
+        p.addRoad(r3);
+
+        assert p.pathHasDuplicateRoad() == false;
+
+        p.addRoad(r4);
+
+        assert p.pathHasDuplicateRoad() == true;
+    }
+
+    @Test
+    @DisplayName("Get the last station object of a path")
+    public void getLastStationTest() {
+        Path p = new Path();
+
+        Station s1Station = new Station("s1", new Point(1, 1));
+        Station s2Station = new Station("s2", new Point(1, 2));
+        Station s3Station = new Station("s3", new Point(2, 2));
+
+        p.addRoad(new Road(s1Station, s2Station));
+
+        assert p.getLastStation() == s2Station;
+
+        p.addRoad(new Road(s1Station, s3Station));
+
+        assert p.getLastStation() == s3Station;
+
+        p.addRoad(new Road(s2Station, s1Station));
+
+        assert p.getLastStation() == s1Station;
     }
     // #endregion
 }

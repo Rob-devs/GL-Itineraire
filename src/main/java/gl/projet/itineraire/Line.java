@@ -33,5 +33,13 @@ public class Line {
     public void setRoads(List<Road> roads) {
         this.roads = roads;
     }
+
+    public int getIntervalle() {
+        return intervalle;
+    }
+
+    public void setIntervalle(int intervalle) {
+        this.intervalle = intervalle;
+    }
     // #endregion
 }

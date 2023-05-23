@@ -2,6 +2,8 @@ package gl.projet.itineraire;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
@@ -63,7 +65,7 @@ public class ItinaryAppTest {
     public void getUserStationsToStop() {
 
         // MOCK System.in
-        String data = "13";
+        String data = "16";
         InputStream stdin = System.in;
         System.setIn(new ByteArrayInputStream(data.getBytes()));
 
@@ -80,7 +82,7 @@ public class ItinaryAppTest {
     @ValueSource(doubles = { 0.5, 2, 6, 19, 1.1, 50, 1000 })
     public void getConvertionDistToTime(double distance) {
         ItinaryApp app = new ItinaryApp();
-        assert (app.getSecondsFromDistance(distance) == distance * Constants.CONVERT_DIST_TO_SECONDS);
+        assert (app.getSecondsFromDistance(distance) == (int) (distance * Constants.CONVERT_DIST_TO_SECONDS));
     }
 
     @Test
@@ -92,6 +94,62 @@ public class ItinaryAppTest {
 
         assert s != null;
         assert s.size() == 5;
+
+        for (Station station : s) {
+            assert station.isAccident() == false;
+        }
+    }
+
+    @Test
+    @DisplayName("Get the roads that contains the station")
+    public void getRoadsNearStationTest() {
+
+        ItinaryApp app = new ItinaryApp();
+        Station s = new Station("bravo", new Point(3, 8));
+        List<Road> roads = app.getRoadsNearStation(s);
+
+        assert roads != null;
+
+        if (roads != null && roads.size() > 0) {
+            for (Road road : roads) {
+                assert (road.getFirstStation() == s || road.getSecondStation() == s);
+            }
+        }
+    }
+
+    @Test
+    @DisplayName("Get all the paths starting from the station")
+    public void getAllPathsFromStationTest() {
+
+        ItinaryApp app = new ItinaryApp();
+        Station s = new Station("bravo", new Point(3, 8));
+        List<Path> paths = app.getAllPathsFromStation(s);
+
+        assert paths != null;
+
+        if (paths != null && paths.size() > 0) {
+            for (Path path : paths) {
+                assert path.pathContainsStation(s);
+            }
+        }
+    }
+
+    @Test
+    @DisplayName("Get all the paths starting from all the stations near the user")
+    public void getAllPathsFromStationsTest() {
+
+        ItinaryApp app = new ItinaryApp();
+        Station s1 = new Station("bravo", new Point(3, 8));
+        Station s2 = new Station("lima", new Point(27, 7));
+        List<Path> paths = app.getAllPathsFromStations(Arrays.asList(s1, s2));
+
+        assert paths != null;
+
+        if (paths != null && paths.size() > 0) {
+            for (Path path : paths) {
+                assert path.pathContainsStation(s1) || path.pathContainsStation(s2);
+            }
+        }
     }
 
 }
