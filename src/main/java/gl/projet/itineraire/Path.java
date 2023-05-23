@@ -23,9 +23,13 @@ public class Path {
         this.travelTime += travelTime;
     }
 
-    // TODO : Renvoie true si un des chemins dans le trajet contient la station
     public boolean pathContainsStation(Station s) {
-        return true;
+        for (Road r : this.roads) {
+            if (r.getFirstStation() ==s ||r.getSecondStation() ==s)   {
+                return true;
+            }
+        }
+        return false;
     }
 
     // TODO : Renvoie true si dans la liste des chemins roads, deux chemins
