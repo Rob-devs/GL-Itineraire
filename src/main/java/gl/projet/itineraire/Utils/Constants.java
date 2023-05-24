@@ -13,4 +13,5 @@ public class Constants {
 
     // Time
     public static final int CONVERT_DIST_TO_SECONDS = 22;
+    public static final int STATION_STOP_TIME = 120;
 }

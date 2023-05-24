@@ -152,4 +152,41 @@ public class ItinaryAppTest {
         }
     }
 
+    @Test
+    @DisplayName("Get the time to wait to take a line")
+    public void getTimeToWaitTest() {
+
+        Line l = new Line(1, null, 600);
+
+        assert l.getTimeToWait(480) == 120;
+        assert l.getTimeToWait(800) == 400;
+    }
+
+    @Test
+    @DisplayName("Get the time for the user to go to the first station")
+    public void getTimeFromStartToFirstStationTest() {
+
+        ItinaryApp app = new ItinaryApp();
+        Path p = new Path();
+        p.addRoad(new Road(new Station("s1", new Point(1, 1)), new Station("s2", new Point(1, 2))));
+
+        assert app.getTimeFromStartToFirstStation(p) > 0;
+    }
+
+    @Test
+    @DisplayName("Get the best path of the list of paths")
+    public void getBestPathTest() {
+
+        ItinaryApp app = new ItinaryApp();
+        Path p1 = new Path();
+        p1.setTravelTime(500);
+        p1.setStationChanges(3);
+        Path p2 = new Path();
+        p2.setTravelTime(600);
+        p2.setStationChanges(1);
+
+        assert app.getBestPath(Arrays.asList(p1, p2), Constants.ITINARY_FASTEST) == p1;
+        assert app.getBestPath(Arrays.asList(p1, p2), Constants.ITINARY_NO_CHANGE) == p2;
+    }
+
 }
