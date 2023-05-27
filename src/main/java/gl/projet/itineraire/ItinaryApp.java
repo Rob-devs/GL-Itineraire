@@ -52,7 +52,8 @@ public class ItinaryApp {
         }
         String itinerary = app.getPreferredItinary();
 
-        paths =app.getAllPathsFromStations(listStation);
+        app.generateAccidents();
+        paths =app.getAllPathsFromStations(app.getStationsNearUser());
 
     }
 
