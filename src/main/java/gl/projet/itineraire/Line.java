@@ -17,13 +17,12 @@ public class Line {
         this.intervalle = intervalle;
     }
 
-    // TODO : Robin
     // Temps à attendre pour prendre prendre cette ligne
     // Renvoie currentTime - n*intervalle pour que le retour soit entre 0 et
     // l'intervalle
     // Peut se faire avec un while
     public int getTimeToWait(int currentTime) {
-        return 0;
+        return this.intervalle-(currentTime%this.intervalle);
     }
 
     // #region Getters and Setters
