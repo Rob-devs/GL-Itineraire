@@ -15,6 +15,7 @@ public class ItinaryApp {
     private static List<Station> listStation;
     private static List<Line> listLines;
     private static Station destination;
+    private static List<Path> paths;
 
     // Constructor
     public ItinaryApp() {
@@ -51,9 +52,9 @@ public class ItinaryApp {
         }
         String itinerary = app.getPreferredItinary();
 
-        // TODO : Robin
-        // Créer une variable de classe List<Path> et appeler les fonctions existantes
-        // pour l'initialiser
+        app.generateAccidents();
+        paths =app.getAllPathsFromStations(app.getStationsNearUser());
+
     }
 
     /******************************************************/
