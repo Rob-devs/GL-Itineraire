@@ -392,11 +392,17 @@ public class ItinaryApp {
         return null;
     }
 
-    // TODO : Robin
     // Obtient le temps mit à parcourir la distance entre la position de
     // l'utilisateur et la première station du trajet
     public int getTimeFromStartToFirstStation(Path path) {
-        return 0;
+        //On récupère la position de départ
+        Point startPosition = user.getStartPosition();
+        //On récupère la position de la première stations du path
+        Road firstRoad = path.roads.get(0);
+        Point firstStation = firstRoad.firstStation.getPosition();
+        //On calul la distance entre les deux
+        double dist = startPosition.getDistance(firstStation);
+        //On converti en temps de trajet
+        return getSecondsFromDistance(dist);
     }
-
 }
