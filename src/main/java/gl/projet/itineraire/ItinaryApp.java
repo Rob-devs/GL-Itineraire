@@ -392,7 +392,6 @@ public class ItinaryApp {
         return null;
     }
 
-    // TODO : Robin
     // Obtient le temps mit à parcourir la distance entre la position de
     // l'utilisateur et la première station du trajet
     public int getTimeFromStartToFirstStation(Path path) {
