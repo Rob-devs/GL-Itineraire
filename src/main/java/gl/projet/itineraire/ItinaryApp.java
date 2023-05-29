@@ -367,22 +367,58 @@ public class ItinaryApp {
         }
     }
 
-    // TODO : Rodolphe
-    // Calculer le temps et le nombre de changements de lignes du trajet
-    // On a : distance de l'utilisateur à la station de départ
-    // (getTimeFromStartToFirstStation)
-    // + pour chaque Road le temps mit à parcourir sa distance
-    // + après chaque Road soit le temps d'arret (Constants.STATION_STOP_TIME) OU
-    // si changement de ligne le temps de changement de ligne
-    // (newLine.getTimeToWait)
-    public void setTimeToPath() {
-
+    /**
+     * This function calculates the total travel time and number of station changes for a given path.
+     * 
+     * @param path A Path object representing a route between two stations.
+     */
+    public void setTimeToPath(Path path) {
+        int totalTime = 0;
+        int totalLineChanges = 0;
+        totalTime += getTimeFromStartToFirstStation(path);
+        int idline = getLineFromRoad(path.getRoads().get(0)).getId();
+        for (Road road : path.getRoads()) {
+            totalTime += getSecondsFromDistance(road.getDistance());
+            Line newL = getLineFromRoad(road);
+            if (idline != newL.getId()) {
+                totalLineChanges++;
+                idline = newL.getId();
+                totalTime += newL.getTimeToWait(totalTime);
+            }else {
+                totalTime += Constants.STATION_STOP_TIME;
+            }
+        }
+        path.setTravelTime(totalTime);
+        path.setStationChanges(totalLineChanges);
     }
 
-    // TODO : Rodolphe
-    // Appeler setTimeToPath pour chaque path
+    /**
+     * This function returns a Line object that contains a given Road object.
+     * 
+     * @param road The road parameter is an object of the Road class, which represents a road
+     * connecting two stations in a transportation system. It has two Station objects as its endpoints.
+     * @return The method is returning a Line object. If a Line object is found in the list of lines
+     * that contains the given Road object, it will be returned. Otherwise, null will be returned.
+     */
+    public Line getLineFromRoad(Road road) {
+        for(Line l : listLines) {
+            for(Road r : l.getRoads()) {
+                if((r.getFirstStation() == road.getFirstStation() && r.getSecondStation() == road.getSecondStation()) 
+                || (r.getFirstStation() == road.getSecondStation() && r.getSecondStation() == road.getFirstStation())) {
+                    return l;
+                }
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * This function sets the time to each path in a list of paths.
+     */
     public void setTimeToPaths() {
-
+        for(Path p : paths) {
+            setTimeToPath(p);
+        }
     }
 
     // TODO : Manu
