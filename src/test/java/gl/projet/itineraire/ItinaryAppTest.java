@@ -2,7 +2,6 @@ package gl.projet.itineraire;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 
@@ -18,8 +17,7 @@ public class ItinaryAppTest {
     @Test
     @DisplayName("Get the user start position")
     public void getUserStartPosition() {
-        ItinaryApp app = new ItinaryApp();
-        Point p = app.getUserStartPosition();
+        Point p = ItinaryApp.getUserStartPosition();
         assert p != null;
         assert (p.getX() <= Constants.MAX_START_POSITION && p.getX() >= Constants.MIN_START_POSITION
                 && p.getY() <= Constants.MAX_START_POSITION && p.getY() >= Constants.MIN_START_POSITION);
@@ -34,8 +32,7 @@ public class ItinaryAppTest {
         InputStream stdin = System.in;
         System.setIn(new ByteArrayInputStream(data.getBytes()));
 
-        ItinaryApp app = new ItinaryApp();
-        Station s = app.getDestination();
+        Station s = ItinaryApp.getDestination();
 
         System.setIn(stdin);
 
@@ -52,8 +49,7 @@ public class ItinaryAppTest {
         InputStream stdin = System.in;
         System.setIn(new ByteArrayInputStream(data.getBytes()));
 
-        ItinaryApp app = new ItinaryApp();
-        String s = app.getPreferredItinary();
+        String s = ItinaryApp.getPreferredItinary();
 
         System.setIn(stdin);
 
@@ -69,8 +65,7 @@ public class ItinaryAppTest {
         InputStream stdin = System.in;
         System.setIn(new ByteArrayInputStream(data.getBytes()));
 
-        ItinaryApp app = new ItinaryApp();
-        List<Station> s = app.getStationsToStop();
+        List<Station> s = ItinaryApp.getStationsToStop();
 
         System.setIn(stdin);
 
@@ -81,16 +76,14 @@ public class ItinaryAppTest {
     @DisplayName("Convert distance to time")
     @ValueSource(doubles = { 0.5, 2, 6, 19, 1.1, 50, 1000 })
     public void getConvertionDistToTime(double distance) {
-        ItinaryApp app = new ItinaryApp();
-        assert (app.getSecondsFromDistance(distance) == (int) (distance * Constants.CONVERT_DIST_TO_SECONDS));
+        assert (ItinaryApp.getSecondsFromDistance(distance) == (int) (distance * Constants.CONVERT_DIST_TO_SECONDS));
     }
 
     @Test
     @DisplayName("Get the 5 stations near the user")
     public void getStationsNearUser() {
 
-        ItinaryApp app = new ItinaryApp();
-        List<Station> s = app.getStationsNearUser();
+        List<Station> s = ItinaryApp.getStationsNearUser();
 
         assert s != null;
         assert s.size() == 5;
@@ -104,9 +97,8 @@ public class ItinaryAppTest {
     @DisplayName("Get the roads that contains the station")
     public void getRoadsNearStationTest() {
 
-        ItinaryApp app = new ItinaryApp();
         Station s = new Station("bravo", new Point(3, 8));
-        List<Road> roads = app.getRoadsNearStation(s);
+        List<Road> roads = ItinaryApp.getRoadsNearStation(s);
 
         assert roads != null;
 
@@ -121,9 +113,8 @@ public class ItinaryAppTest {
     @DisplayName("Get all the paths starting from the station")
     public void getAllPathsFromStationTest() {
 
-        ItinaryApp app = new ItinaryApp();
         Station s = new Station("bravo", new Point(3, 8));
-        List<Path> paths = app.getAllPathsFromStation(s);
+        List<Path> paths = ItinaryApp.getAllPathsFromStation(s);
 
         assert paths != null;
 
@@ -138,10 +129,9 @@ public class ItinaryAppTest {
     @DisplayName("Get all the paths starting from all the stations near the user")
     public void getAllPathsFromStationsTest() {
 
-        ItinaryApp app = new ItinaryApp();
         Station s1 = new Station("bravo", new Point(3, 8));
         Station s2 = new Station("lima", new Point(27, 7));
-        List<Path> paths = app.getAllPathsFromStations(Arrays.asList(s1, s2));
+        List<Path> paths = ItinaryApp.getAllPathsFromStations(Arrays.asList(s1, s2));
 
         assert paths != null;
 
@@ -166,18 +156,17 @@ public class ItinaryAppTest {
     @DisplayName("Get the time for the user to go to the first station")
     public void getTimeFromStartToFirstStationTest() {
 
-        ItinaryApp app = new ItinaryApp();
+        Point start = new Point(10, 10);
         Path p = new Path();
         p.addRoad(new Road(new Station("s1", new Point(1, 1)), new Station("s2", new Point(1, 2))));
 
-        assert app.getTimeFromStartToFirstStation(p) > 0;
+        assert ItinaryApp.getTimeFromStartToFirstStation(start, p) > 0;
     }
 
     @Test
     @DisplayName("Get the best path of the list of paths")
     public void getBestPathTest() {
 
-        ItinaryApp app = new ItinaryApp();
         Path p1 = new Path();
         p1.setTravelTime(500);
         p1.setStationChanges(3);
@@ -185,8 +174,8 @@ public class ItinaryAppTest {
         p2.setTravelTime(600);
         p2.setStationChanges(1);
 
-        assert app.getBestPath(Arrays.asList(p1, p2), Constants.ITINARY_FASTEST) == p1;
-        assert app.getBestPath(Arrays.asList(p1, p2), Constants.ITINARY_NO_CHANGE) == p2;
+        assert ItinaryApp.getBestPath(Arrays.asList(p1, p2), Constants.ITINARY_FASTEST) == p1;
+        assert ItinaryApp.getBestPath(Arrays.asList(p1, p2), Constants.ITINARY_NO_CHANGE) == p2;
     }
 
 }
