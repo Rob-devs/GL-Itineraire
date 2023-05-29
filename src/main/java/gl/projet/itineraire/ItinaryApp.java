@@ -421,11 +421,29 @@ public class ItinaryApp {
         }
     }
 
-    // TODO : Manu
     // Obtenir le meilleur trajet de la liste des trajets selon la preference de
     // l'utilisateur
     public Path getBestPath(List<Path> paths, String preference) {
-        return null;
+        Path bestPath = paths.get(0);
+        switch (preference){
+            case Constants.ITINARY_FASTEST -> {
+                for (Path p: paths) {
+                    if(p.getTravelTime()<bestPath.getTravelTime()){
+                        bestPath = p;
+                    }
+                }
+            }
+            case Constants.ITINARY_NO_CHANGE -> {
+                for (Path p: paths) {
+                    if(p.getStationChanges()<bestPath.getStationChanges()){
+                        bestPath = p;
+                    }
+                }
+            }
+            default -> {bestPath = null;}
+        }
+
+        return bestPath;
     }
 
     // Obtient le temps mit à parcourir la distance entre la position de
