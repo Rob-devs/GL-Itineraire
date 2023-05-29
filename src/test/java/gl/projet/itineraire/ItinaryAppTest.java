@@ -2,6 +2,7 @@ package gl.projet.itineraire;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.mockito.exceptions.misusing.PotentialStubbingProblem;
 
 import gl.projet.itineraire.Utils.Constants;
 
@@ -167,15 +169,35 @@ public class ItinaryAppTest {
     @DisplayName("Get the best path of the list of paths")
     public void getBestPathTest() {
 
+        Station s1 = new Station("s1", new Point(2, 3));
+        Station s2 = new Station("s2", new Point(2, 5));
+        Station s3 = new Station("s3", new Point(4, 6));
+        Station s4 = new Station("s4", new Point(6, 2));
+        Station s5 = new Station("s5", new Point(1, 20));
+        Station s6 = new Station("s6", new Point(10, 10));
+
         Path p1 = new Path();
         p1.setTravelTime(500);
         p1.setStationChanges(3);
+        p1.addRoad(new Road(s1, s2));
+        p1.addRoad(new Road(s2, s3));
         Path p2 = new Path();
         p2.setTravelTime(600);
         p2.setStationChanges(1);
+        p2.addRoad(new Road(s4, s5));
+        p2.addRoad(new Road(s5, s6));
+        Path p3 = new Path();
+        p3.setTravelTime(400);
+        p3.setStationChanges(2);
+        p3.addRoad(new Road(s1, s5));
+        p3.addRoad(new Road(s5, s3));
 
-        assert ItinaryApp.getBestPath(Arrays.asList(p1, p2), Constants.ITINARY_FASTEST) == p1;
-        assert ItinaryApp.getBestPath(Arrays.asList(p1, p2), Constants.ITINARY_NO_CHANGE) == p2;
+        assert ItinaryApp.getBestPath(Arrays.asList(p1, p2, p3), Constants.ITINARY_FASTEST,
+                new ArrayList<Station>()) == p3;
+        assert ItinaryApp.getBestPath(Arrays.asList(p1, p2, p3), Constants.ITINARY_NO_CHANGE,
+                new ArrayList<Station>()) == p2;
+        assert ItinaryApp.getBestPath(Arrays.asList(p1, p2, p3), Constants.ITINARY_FASTEST, Arrays.asList(s4)) == p1;
+        assert ItinaryApp.getBestPath(Arrays.asList(p1, p2, p3), Constants.ITINARY_NO_CHANGE, Arrays.asList(s5)) == p3;
     }
 
 }
