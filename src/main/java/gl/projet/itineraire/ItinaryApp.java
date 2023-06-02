@@ -456,11 +456,12 @@ public class ItinaryApp {
         return getSecondsFromDistance(dist);
     }
 
-    // TODO : Rodolphe / Robin
     // Afficher les informations principales d'un path :
     // Temps de trajet et nombre de changement de lignes
     public static void displayPathInfos(Path path) {
-
+        System.out.println("Informations sur le chemin\n==================================\n");
+        System.out.printf("Temps de trajet : %s \n", path.getTravelTime());
+        System.out.printf("Nombre de changement de lignes : %s \n==================================\n", path.getStationChanges());
     }
 
     // TODO : Rodolphe / Robin
