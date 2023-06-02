@@ -416,11 +416,11 @@ public class ItinaryApp {
 
     // Obtenir le meilleur trajet de la liste des trajets selon la preference de
     // l'utilisateur
-    public static Path getBestPath(List<Path> paths, String preference) {
+    public static Path getBestPath(List<Path> paths, String preference, List<Station> stations) {
         Path bestPath = new Path();
-        int nbstation = user.getStationsToStop().size();
+        int nbstation = stations.size();
         for (Path p: paths) {
-            int i = (int) listStation.stream().filter(p::pathContainsStation).count();
+            int i = (int) stations.stream().filter(p::pathContainsStation).count();
             if(i == nbstation){
                 switch (preference){
                     case Constants.ITINARY_FASTEST -> {

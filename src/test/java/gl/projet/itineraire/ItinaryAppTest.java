@@ -196,8 +196,8 @@ public class ItinaryAppTest {
                 new ArrayList<Station>()) == p3;
         assert ItinaryApp.getBestPath(Arrays.asList(p1, p2, p3), Constants.ITINARY_NO_CHANGE,
                 new ArrayList<Station>()) == p2;
-        assert ItinaryApp.getBestPath(Arrays.asList(p1, p2, p3), Constants.ITINARY_FASTEST, Arrays.asList(s4)) == p1;
-        assert ItinaryApp.getBestPath(Arrays.asList(p1, p2, p3), Constants.ITINARY_NO_CHANGE, Arrays.asList(s5)) == p3;
+        assert ItinaryApp.getBestPath(Arrays.asList(p1, p2, p3), Constants.ITINARY_FASTEST, Arrays.asList(s4)) == p2;
+        assert ItinaryApp.getBestPath(Arrays.asList(p1, p2, p3), Constants.ITINARY_NO_CHANGE, Arrays.asList(s3)) == p3;
     }
 
 }
