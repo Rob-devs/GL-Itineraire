@@ -12,6 +12,7 @@ public class ItinaryApp {
 
     private static User user = new User(getUserStartPosition());
 
+    // Initiation des données en dure
     private static List<Station> listStation = Arrays.asList(new Station("alpha", new Point(1, 1)),
             new Station("bravo", new Point(3, 8)), new Station("charlie", new Point(6, 12)),
             new Station("delta", new Point(1, 29)), new Station("echo", new Point(12, 5)),
@@ -45,42 +46,67 @@ public class ItinaryApp {
     /******************************************************/
     public static void main(String[] args) {
 
-        Point startPosition = user.getStartPosition();
+        Scanner scan = new Scanner(System.in);
 
-        System.out.println("Calcule itineraire");
-        System.out.println("Votre position de départ : )");
-        System.out.println("x:" + startPosition.x);
-        System.out.println("y:" + startPosition.y);
+        // Position de départ
+        newSeparator();
+        System.out.println("[Calcul d'itineraire]\n");
+        System.out.println("Votre position de départ : (" + user.getStartPosition().getX() + ";"
+                + user.getStartPosition().getY() + ")\n");
 
+        // Récupération de la destination
         user.setDestination(getDestination());
 
-        List<Station> listStationsToStop = new ArrayList<Station>();
+        newSeparator();
 
-        Scanner scan = new Scanner(System.in);
+        // Stations par lesquelles s'arrêter
         String choix = "";
         while (!choix.equals("N") && !choix.equals("n") && !choix.equals("Y") && !choix.equals("y")) {
-            System.out.println("Voulez-vous ajouter des stations par lequelles l'itinéraire devra passer ? [Y/N]");
+            System.out.println("Voulez-vous ajouter des stations par lequelles l'itinéraire devra passer ? [Y/N]\n");
             choix = scan.nextLine();
             if (!choix.equals("N") && !choix.equals("n") && !choix.equals("Y") && !choix.equals("y")) {
-                System.out.println("Erreur : choix invalide !" + '(' + choix + ')');
+                System.out.println("Erreur : choix invalide !" + '(' + choix + ')' + "\n");
             }
         }
-
         if (choix.equals("Y") || choix.equals("y")) {
-            listStationsToStop = getStationsToStop();
+            user.setStationsToStop(getStationsToStop());
         }
+
+        newSeparator();
+
+        // Itinéraire favoris
         user.setPreferredItinary(getPreferredItinary());
 
-        generateAccidents();
-        paths = getAllPathsFromStations(getStationsNearUser());
+        newSeparator();
 
+        // Génération et affichage des accidents
+        generateAccidents();
+
+        newSeparator();
+
+        List<Station> stationsNearUser = getStationsNearUser();
+
+        // Récupération des trajets
+        paths = getAllPathsFromStations(stationsNearUser);
         setTimeToPaths();
 
-        Path bestPath = getBestPath(paths, user.getPreferredItinary(), user.getStationsToStop());
+        // On vérifie qu'un chemin est bien présent
+        if (paths.size() == 0) {
+            System.out.println("Aucun trajet n'a été trouvé... Vous allez devoir vous promener");
+        } else {
+            // Récupération du meilleur trajet
+            Path bestPath = getBestPath(paths, user.getPreferredItinary(), user.getStationsToStop());
 
-        displayPathInfos(bestPath);
-        displayPathRoads(bestPath);
+            // Affichage des informations
+            displayPathInfos(bestPath);
+            newSeparator();
+            displayPathRoads(bestPath);
+        }
+    }
 
+    // Séparateur
+    private static void newSeparator() {
+        System.out.println("\n==================================\n");
     }
 
     /******************************************************/
@@ -99,6 +125,7 @@ public class ItinaryApp {
         for (int i = 0; i < listStation.size(); i++) {
             System.out.println((i + 1) + " - " + listStation.get(i).getName());
         }
+        System.out.println("");
         Scanner sc = new Scanner(System.in);
         try {
             int choice = sc.nextInt();
@@ -122,9 +149,9 @@ public class ItinaryApp {
      *         input is received.
      */
     public static String getPreferredItinary() {
-        System.out.println("Veuillez choisir quel type d'itinéraire vous préféré : ");
+        System.out.println("Veuillez choisir quel type d'itinéraire vous préférez : ");
         System.out.println("1 - Le plus rapide");
-        System.out.println("2 - Le moins de changement");
+        System.out.println("2 - Le moins de changement\n");
 
         Scanner scan = new Scanner(System.in);
         try {
@@ -158,7 +185,7 @@ public class ItinaryApp {
                 }
             }
 
-            System.out.println((listStation.size() + 1) + " - Stop");
+            System.out.println((listStation.size() + 1) + " - Stop\n");
 
             Scanner scan = new Scanner(System.in);
             try {
@@ -172,17 +199,17 @@ public class ItinaryApp {
                             arret.add(listStation.get(choice - 1));
                         } else {
                             j--;
-                            System.out.println("Veuillez choisir une option valable");
+                            System.out.println("Veuillez choisir une option valable\n");
                         }
                         System.out.println(arret.get(j).getName());
                     } else {
                         j--;
-                        System.out.println("Veuillez choisir une option valable");
+                        System.out.println("Veuillez choisir une option valable\n");
                     }
                 }
             } catch (InputMismatchException e) {
                 j--;
-                System.out.println("Veuillez choisir une option valable");
+                System.out.println("Veuillez choisir une option valable\n");
             }
         }
         return arret;
@@ -238,7 +265,7 @@ public class ItinaryApp {
             }
         }
         List<Double> sort = distance.keySet().stream().sorted().toList();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < Constants.STATIONS_NEAR_USER; i++) {
             res.add(distance.get(sort.get(i)));
         }
 
@@ -279,9 +306,11 @@ public class ItinaryApp {
     public static List<Path> getAllPathsFromStation(Station s) {
         List<Path> listPath = new ArrayList<>();
         for (Road r : getRoadsNearStation(s)) {
-            Path p = new Path();
-            p.addRoad(r);
-            listPath.add(p);
+            if (r.getFirstStation() != user.getDestination()) {
+                Path p = new Path();
+                p.addRoad(r);
+                listPath.add(p);
+            }
         }
 
         boolean terminer = false;
@@ -327,27 +356,31 @@ public class ItinaryApp {
     public static void generateAccidents() {
         Random randStation = new Random();
         System.out.println("Accidents dans les stations :");
+        int nbAccidents = 0;
         for (Station s : listStation) {
             int numAccidents = randStation.nextInt(15);
-            if (numAccidents <= 2 && numAccidents >= 0) {
+            if (numAccidents <= 2 && nbAccidents < Constants.MAX_ACCIDENT_STATION) {
+                nbAccidents++;
                 s.setAccident(true);
+                System.out.println("Station " + s.getName());
             } else {
                 s.setAccident(false);
             }
-            System.out.println("Station " + s.getName() + ":" + s.isAccident());
         }
-        System.out.println("Accidents sur les routes :");
+        System.out.println("\nAccidents sur les routes :");
         Random randRoad = new Random();
+        nbAccidents = 0;
         for (Line l : listLines) {
             for (Road r : l.getRoads()) {
                 int numAccidents = randRoad.nextInt(5);
-                if (numAccidents == 1) {
+                if (numAccidents == 1 && nbAccidents < Constants.MAX_ACCIDENT_ROAD) {
+                    nbAccidents++;
                     r.setAccident(true);
+                    System.out.println(
+                            "Route entre " + r.getFirstStation().getName() + " et " + r.getSecondStation().getName());
                 } else {
                     r.setAccident(false);
                 }
-                System.out.println(
-                        "Route entre " + r.getFirstStation() + " et " + r.getSecondStation() + " : " + r.isAccident());
             }
         }
     }
@@ -456,9 +489,9 @@ public class ItinaryApp {
     // Afficher les informations principales d'un path :
     // Temps de trajet et nombre de changement de lignes
     public static void displayPathInfos(Path path) {
-        System.out.println("Informations sur le chemin\n==================================\n");
+        System.out.println("Informations sur le chemin");
         System.out.printf("Temps de trajet : %s \n", path.getTravelTime());
-        System.out.printf("Nombre de changement de lignes : %s \n==================================\n",
+        System.out.printf("Nombre de changement de lignes : %s",
                 path.getStationChanges());
     }
 
@@ -468,14 +501,14 @@ public class ItinaryApp {
     public static void displayPathRoads(Path path) {
         List<Road> roads = path.getRoads();
         Line currentLine = getLineFromRoad(roads.get(0));
-        System.out.println("Road map\n=======================\n");
+        System.out.println("[Votre trajet]\n");
         for (int i = 0; i < roads.size(); i++) {
             String endString = "...";
             Road road = roads.get(i);
             if (i == 0) {
-                System.out.printf("Marcher jusqu'à Station %s -> prendre Ligne %s", road.getFirstStation(),
-                        getLineFromRoad(road));
-            } else if (i != roads.size() - 1) {
+                System.out.printf("Marcher jusqu'à Station %s -> prendre Ligne %s\n", road.getFirstStation().getName(),
+                        getLineFromRoad(road).getId());
+            } else if (i < (roads.size() - 1)) {
                 Road nextRoad = roads.get(i + 1);
                 Line checkLine = getLineFromRoad(nextRoad);
                 if (!checkLine.equals(currentLine)) {
@@ -483,10 +516,9 @@ public class ItinaryApp {
                     endString = " -> changement -> Ligne " + currentLine.getId();
                 }
             } else {
-                endString = "!";
+                endString = " !";
             }
-            System.out.printf("Station %s %s", road.getSecondStation(), endString);
+            System.out.printf("Station %s%s\n", road.getSecondStation().getName(), endString);
         }
-        System.out.println("\n=======================\n");
     }
 }
