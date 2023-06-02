@@ -14,6 +14,9 @@ public class Station {
         this.accident = false;
     }
 
+    public Station() {
+    }
+
     public double getDistance(Point p) {
         return position.getDistance(p);
     }
