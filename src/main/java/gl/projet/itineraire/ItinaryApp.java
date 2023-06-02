@@ -65,7 +65,6 @@ public class ItinaryApp {
                 System.out.println("Erreur : choix invalide !" + '(' + choix + ')');
             }
         }
-        scan.close();
 
         if (choix.equals("Y") || choix.equals("y")) {
             listStationsToStop = getStationsToStop();
@@ -77,7 +76,7 @@ public class ItinaryApp {
 
         setTimeToPaths();
 
-        Path bestPath = getBestPath(paths, user.getPreferredItinary(),user.getStationsToStop());
+        Path bestPath = getBestPath(paths, user.getPreferredItinary(), user.getStationsToStop());
 
         displayPathInfos(bestPath);
         displayPathRoads(bestPath);
@@ -110,8 +109,6 @@ public class ItinaryApp {
             }
         } catch (InputMismatchException e) {
             return getDestination();
-        } finally {
-            sc.close();
         }
     }
 
@@ -140,8 +137,6 @@ public class ItinaryApp {
             };
         } catch (InputMismatchException e) {
             return getPreferredItinary();
-        } finally {
-            scan.close();
         }
     }
 
@@ -188,8 +183,6 @@ public class ItinaryApp {
             } catch (InputMismatchException e) {
                 j--;
                 System.out.println("Veuillez choisir une option valable");
-            } finally {
-                scan.close();
             }
         }
         return arret;
@@ -424,21 +417,23 @@ public class ItinaryApp {
     public static Path getBestPath(List<Path> paths, String preference, List<Station> stations) {
         Path bestPath = new Path();
         int nbstation = stations.size();
-        for (Path p: paths) {
+        for (Path p : paths) {
             int i = (int) stations.stream().filter(p::pathContainsStation).count();
-            if(i == nbstation){
-                switch (preference){
+            if (i == nbstation) {
+                switch (preference) {
                     case Constants.ITINARY_FASTEST -> {
-                        if(p.getTravelTime()<bestPath.getTravelTime() || bestPath.getTravelTime() == 0){
+                        if (p.getTravelTime() < bestPath.getTravelTime() || bestPath.getTravelTime() == 0) {
                             bestPath = p;
                         }
                     }
                     case Constants.ITINARY_NO_CHANGE -> {
-                        if(p.getStationChanges()<bestPath.getStationChanges() || bestPath.getTravelTime() == 0){
+                        if (p.getStationChanges() < bestPath.getStationChanges() || bestPath.getTravelTime() == 0) {
                             bestPath = p;
                         }
                     }
-                    default -> {bestPath = null;}
+                    default -> {
+                        bestPath = null;
+                    }
                 }
             }
         }
@@ -463,7 +458,8 @@ public class ItinaryApp {
     public static void displayPathInfos(Path path) {
         System.out.println("Informations sur le chemin\n==================================\n");
         System.out.printf("Temps de trajet : %s \n", path.getTravelTime());
-        System.out.printf("Nombre de changement de lignes : %s \n==================================\n", path.getStationChanges());
+        System.out.printf("Nombre de changement de lignes : %s \n==================================\n",
+                path.getStationChanges());
     }
 
     // Afficher les chemins et lignes d'un path :
@@ -473,22 +469,23 @@ public class ItinaryApp {
         List<Road> roads = path.getRoads();
         Line currentLine = getLineFromRoad(roads.get(0));
         System.out.println("Road map\n=======================\n");
-        for (int i = 0 ; i < roads.size() ; i++) {
+        for (int i = 0; i < roads.size(); i++) {
             String endString = "...";
             Road road = roads.get(i);
-            if(i==0){
-                System.out.printf("Marcher jusqu'à Station %s -> prendre Ligne %s", road.getFirstStation(),getLineFromRoad(road));
-            } else if (i != roads.size()-1) {
-                Road nextRoad =  roads.get(i+1);
+            if (i == 0) {
+                System.out.printf("Marcher jusqu'à Station %s -> prendre Ligne %s", road.getFirstStation(),
+                        getLineFromRoad(road));
+            } else if (i != roads.size() - 1) {
+                Road nextRoad = roads.get(i + 1);
                 Line checkLine = getLineFromRoad(nextRoad);
-                if(!checkLine.equals(currentLine)){
+                if (!checkLine.equals(currentLine)) {
                     currentLine = checkLine;
                     endString = " -> changement -> Ligne " + currentLine.getId();
                 }
-            }else{
+            } else {
                 endString = "!";
             }
-            System.out.printf("Station %s %s", road.getSecondStation(),endString);
+            System.out.printf("Station %s %s", road.getSecondStation(), endString);
         }
         System.out.println("\n=======================\n");
     }
