@@ -463,19 +463,30 @@ public class ItinaryApp {
 
     }
 
-    // TODO : Rodolphe / Robin
     // Afficher les chemins et lignes d'un path :
     // Afficher chaque station les unes après les autres et indiquer à chaque fois
     // qu'on change de ligne par l'ID de la ligne à prendre
     public static void displayPathRoads(Path path) {
-        // Exemple attendu (dans l'idée) :
-        //
-        // Marcher juqu'à Station etoile -> prendre Ligne 3
-        // Station fleur...
-        // Station caillou...
-        // Station test...
-        // Station x -> changement -> Ligne 2
-        // Station y...
-        // Station destination !
+        List<Road> roads = path.getRoads();
+        Line currentLine = getLineFromRoad(roads.get(0));
+        System.out.println("Road map\n=======================\n");
+        for (int i = 0 ; i < roads.size() ; i++) {
+            String endString = "...";
+            Road road = roads.get(i);
+            if(i==0){
+                System.out.printf("Marcher jusqu'à Station %s -> prendre Ligne %s", road.getFirstStation(),getLineFromRoad(road));
+            } else if (i != roads.size()-1) {
+                Road nextRoad =  roads.get(i+1);
+                Line checkLine = getLineFromRoad(nextRoad);
+                if(!checkLine.equals(currentLine)){
+                    currentLine = checkLine;
+                    endString = " -> changement -> Ligne " + currentLine.getId();
+                }
+            }else{
+                endString = "!";
+            }
+            System.out.printf("Station %s %s", road.getSecondStation(),endString);
+        }
+        System.out.println("\n=======================\n");
     }
 }
