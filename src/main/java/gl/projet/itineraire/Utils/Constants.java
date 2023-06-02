@@ -1,4 +1,4 @@
-package gl.projet.itineraire.Utils;
+package gl.projet.itineraire.utils;
 
 // Constantes utiles à l'application
 public class Constants {

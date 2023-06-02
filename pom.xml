@@ -59,6 +59,10 @@
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>${jacoco.version}</version>
                 <configuration>
+                    <includes>
+                        <include>**/*.java</include>
+                        <include>!utils/Constants.java</include>
+                    </includes>
                 </configuration>
                 <executions>
                     <execution>
@@ -87,7 +91,7 @@
                                         <limit>
                                             <counter>LINE</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>0.0</minimum>
+                                            <minimum>0.5</minimum>
                                         </limit>
                                     </limits>
                                 </rule>

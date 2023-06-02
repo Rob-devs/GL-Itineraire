@@ -5,7 +5,7 @@ import java.util.Arrays;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import gl.projet.itineraire.Utils.Constants;
+import gl.projet.itineraire.utils.Constants;
 
 public class ObjectsTest {
 

@@ -12,7 +12,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.exceptions.misusing.PotentialStubbingProblem;
 
-import gl.projet.itineraire.Utils.Constants;
+import gl.projet.itineraire.utils.Constants;
 
 public class ItinaryAppTest {
 
