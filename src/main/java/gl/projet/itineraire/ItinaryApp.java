@@ -75,8 +75,13 @@ public class ItinaryApp {
         generateAccidents();
         paths = getAllPathsFromStations(getStationsNearUser());
 
-        // TODO : Rodolphe / Robin
-        // Terminer le main
+        setTimeToPaths();
+
+        Path bestPath = getBestPath(paths, user.getPreferredItinary(),user.getStationsToStop());
+
+        displayPathInfos(bestPath);
+        displayPathRoads(bestPath);
+
     }
 
     /******************************************************/
