@@ -88,7 +88,7 @@ public class ItinaryAppTest {
         List<Station> s = ItinaryApp.getStationsNearUser();
 
         assert s != null;
-        assert s.size() == 5;
+        assert s.size() == Constants.STATIONS_NEAR_USER;
 
         for (Station station : s) {
             assert station.isAccident() == false;
