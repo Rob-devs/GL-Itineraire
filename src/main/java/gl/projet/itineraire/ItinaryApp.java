@@ -357,7 +357,7 @@ public class ItinaryApp {
     /**
      * This function calculates the total travel time and number of station changes
      * for a given path.
-     * 
+     *
      * @param path A Path object representing a route between two stations.
      */
     public static void setTimeToPath(Path path) {
@@ -382,7 +382,7 @@ public class ItinaryApp {
 
     /**
      * This function returns a Line object that contains a given Road object.
-     * 
+     *
      * @param road The road parameter is an object of the Road class, which
      *             represents a road
      *             connecting two stations in a transportation system. It has two
@@ -416,28 +416,25 @@ public class ItinaryApp {
 
     // Obtenir le meilleur trajet de la liste des trajets selon la preference de
     // l'utilisateur
-    // TODO : Emmanuel
-    // Prendre en compte les stations auxquelles l'utilisateur souhaite s'arrêter
-    // Quelle chance, Path.pathContainsStation(Station) existe
-    public static Path getBestPath(List<Path> paths, String preference, List<Station> stationsToStop) {
-        Path bestPath = paths.get(0);
-        switch (preference) {
-            case Constants.ITINARY_FASTEST -> {
-                for (Path p : paths) {
-                    if (p.getTravelTime() < bestPath.getTravelTime()) {
-                        bestPath = p;
+    public static Path getBestPath(List<Path> paths, String preference) {
+        Path bestPath = new Path();
+        int nbstation = user.getStationsToStop().size();
+        for (Path p: paths) {
+            int i = (int) listStation.stream().filter(p::pathContainsStation).count();
+            if(i == nbstation){
+                switch (preference){
+                    case Constants.ITINARY_FASTEST -> {
+                        if(p.getTravelTime()<bestPath.getTravelTime() || bestPath.getTravelTime() == 0){
+                            bestPath = p;
+                        }
                     }
-                }
-            }
-            case Constants.ITINARY_NO_CHANGE -> {
-                for (Path p : paths) {
-                    if (p.getStationChanges() < bestPath.getStationChanges()) {
-                        bestPath = p;
+                    case Constants.ITINARY_NO_CHANGE -> {
+                        if(p.getStationChanges()<bestPath.getStationChanges() || bestPath.getTravelTime() == 0){
+                            bestPath = p;
+                        }
                     }
+                    default -> {bestPath = null;}
                 }
-            }
-            default -> {
-                bestPath = null;
             }
         }
 
