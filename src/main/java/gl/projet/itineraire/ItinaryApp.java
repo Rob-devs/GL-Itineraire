@@ -388,23 +388,25 @@ public class ItinaryApp {
     // Obtenir le meilleur trajet de la liste des trajets selon la preference de
     // l'utilisateur
     public Path getBestPath(List<Path> paths, String preference) {
-        Path bestPath = paths.get(0);
-        switch (preference){
-            case Constants.ITINARY_FASTEST -> {
-                for (Path p: paths) {
-                    if(p.getTravelTime()<bestPath.getTravelTime()){
-                        bestPath = p;
+        Path bestPath = new Path();
+        int nbstation = user.getStationsToStop().size();
+        for (Path p: paths) {
+            int i = (int) listStation.stream().filter(p::pathContainsStation).count();
+            if(i == nbstation){
+                switch (preference){
+                    case Constants.ITINARY_FASTEST -> {
+                        if(p.getTravelTime()<bestPath.getTravelTime() || bestPath.getTravelTime() == 0){
+                            bestPath = p;
+                        }
                     }
+                    case Constants.ITINARY_NO_CHANGE -> {
+                        if(p.getStationChanges()<bestPath.getStationChanges() || bestPath.getTravelTime() == 0){
+                            bestPath = p;
+                        }
+                    }
+                    default -> {bestPath = null;}
                 }
             }
-            case Constants.ITINARY_NO_CHANGE -> {
-                for (Path p: paths) {
-                    if(p.getStationChanges()<bestPath.getStationChanges()){
-                        bestPath = p;
-                    }
-                }
-            }
-            default -> {bestPath = null;}
         }
 
         return bestPath;
