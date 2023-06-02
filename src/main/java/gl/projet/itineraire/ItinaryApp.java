@@ -463,6 +463,10 @@ public class ItinaryApp {
     public static void displayPathInfos(Path path) {
         System.out.println("Informations sur le chemin\n==================================\n");
         System.out.printf("Temps de trajet : %s \n", path.getTravelTime());
+        int hh = path.getTravelTime()/ 3600;
+        int mm =(path.getTravelTime() % 3600) / 60;
+        int ss = path.getTravelTime() % 60;
+        System.out.printf("Heures : %s \nMinutes : %s \nSecondes : %s \n", hh, mm, ss);
         System.out.printf("Nombre de changement de lignes : %s \n==================================\n", path.getStationChanges());
     }
 
