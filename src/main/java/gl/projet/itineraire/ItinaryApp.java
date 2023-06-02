@@ -52,7 +52,9 @@ public class ItinaryApp {
         System.out.println("x:" + startPosition.x);
         System.out.println("y:" + startPosition.y);
 
-        getDestination();
+        user.setDestination(getDestination());
+
+        List<Station> listStationsToStop = new ArrayList<Station>();
 
         Scanner scan = new Scanner(System.in);
         String choix = "";
@@ -64,14 +66,17 @@ public class ItinaryApp {
             }
         }
         scan.close();
+
         if (choix.equals("Y") || choix.equals("y")) {
-            getStationsToStop();
+            listStationsToStop = getStationsToStop();
         }
         user.setPreferredItinary(getPreferredItinary());
 
         generateAccidents();
         paths = getAllPathsFromStations(getStationsNearUser());
 
+        // TODO : Rodolphe / Robin
+        // Terminer le main
     }
 
     /******************************************************/
@@ -411,7 +416,7 @@ public class ItinaryApp {
 
     // Obtenir le meilleur trajet de la liste des trajets selon la preference de
     // l'utilisateur
-    public Path getBestPath(List<Path> paths, String preference) {
+    public static Path getBestPath(List<Path> paths, String preference) {
         Path bestPath = new Path();
         int nbstation = user.getStationsToStop().size();
         for (Path p: paths) {
@@ -446,5 +451,28 @@ public class ItinaryApp {
         double dist = startPosition.getDistance(firstStation);
         // On converti en temps de trajet
         return getSecondsFromDistance(dist);
+    }
+
+    // TODO : Rodolphe / Robin
+    // Afficher les informations principales d'un path :
+    // Temps de trajet et nombre de changement de lignes
+    public static void displayPathInfos(Path path) {
+
+    }
+
+    // TODO : Rodolphe / Robin
+    // Afficher les chemins et lignes d'un path :
+    // Afficher chaque station les unes après les autres et indiquer à chaque fois
+    // qu'on change de ligne par l'ID de la ligne à prendre
+    public static void displayPathRoads(Path path) {
+        // Exemple attendu (dans l'idée) :
+        //
+        // Marcher juqu'à Station etoile -> prendre Ligne 3
+        // Station fleur...
+        // Station caillou...
+        // Station test...
+        // Station x -> changement -> Ligne 2
+        // Station y...
+        // Station destination !
     }
 }
